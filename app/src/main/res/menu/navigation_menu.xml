@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_vector_home"
+        android:title="@string/dashboard" />
+
+    <item
+        android:id="@+id/nav_chapter"
+        android:icon="@drawable/ic_vector_chapter"
+        android:title="@string/chapter_list" />
+
+    <item
+        android:id="@+id/nav_lunch_dc"
+        android:icon="@drawable/ic_vector_launch_dc"
+        android:title="@string/launch_dc" />
+
+
+    <item
+        android:id="@+id/nav_change_password"
+        android:icon="@drawable/ic_change_password"
+        android:title="@string/change_password" />
+
+    <item
+        android:id="@+id/nav_share_app"
+        android:icon="@drawable/ic_vector_share"
+        android:title="@string/share_application" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_vector_logout"
+        android:title="@string/logout" />
+</menu>

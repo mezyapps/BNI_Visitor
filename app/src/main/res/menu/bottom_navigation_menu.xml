@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_total_visitor"
+        android:checked="true"
+        android:icon="@drawable/ic_vector_launch_dc"
+        android:title="Add Launch DC"/>
+
+    <item
+        android:id="@+id/nav_chapter"
+        android:icon="@drawable/ic_vector_chapter"
+        android:title="Add Chapter"/>
+
+
+    <item
+        android:id="@+id/nav_add_visitor"
+        android:icon="@drawable/ic_vector_add"
+        android:title="Add Visitor"/>
+
+</menu>

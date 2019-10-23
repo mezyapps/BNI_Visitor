@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -59,6 +60,7 @@ public class HomeFragment extends Fragment {
     private ShowProgressDialog showProgressDialog;
     public static ApiInterface apiInterface;
     public static boolean isRefresh=false;
+    private TextView textName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,6 +79,7 @@ public class HomeFragment extends Fragment {
         rr_visitor_by_chapter = view.findViewById(R.id.rr_visitor_by_chapter);
         rr_visitor_by_source = view.findViewById(R.id.rr_visitor_by_source);
         rr_visitor_by_date = view.findViewById(R.id.rr_visitor_by_date);
+        textName = view.findViewById(R.id.textName);
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         showProgressDialog=new ShowProgressDialog(mContext);
@@ -246,7 +249,15 @@ public class HomeFragment extends Fragment {
                                 not_interested=successModule.getNot_interested();
                                 member=successModule.getMember();
                                 follow_up=successModule.getFollow_up();
-                                pieChartSet();
+                                if (not_interested.equalsIgnoreCase("0") && member.equalsIgnoreCase("0") && follow_up.equalsIgnoreCase("0")) {
+                                    textName.setVisibility(View.VISIBLE);
+                                    pieChart_visitor.setVisibility(View.GONE);
+                                }
+                                else {
+                                    textName.setVisibility(View.GONE);
+                                    pieChart_visitor.setVisibility(View.VISIBLE);
+                                    pieChartSet();
+                                }
                             } else {
                                 showProgressDialog.dismissDialog();
                             }

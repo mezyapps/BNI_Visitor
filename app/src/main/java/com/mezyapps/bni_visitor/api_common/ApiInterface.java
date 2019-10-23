@@ -55,14 +55,6 @@ public interface ApiInterface {
     @POST(EndApi.WS_EDIT_VISITOR)
     @FormUrlEncoded
     Call<SuccessModel> editVisitor(@Field("visitor_id") String visitor_id,
-                                  @Field("name") String name,
-                                  @Field("mobile_number") String mobile_number,
-                                  @Field("email") String email,
-                                  @Field("category") String category,
-                                  @Field("location") String location,
-                                  @Field("chapter_name") String chapter_name,
-                                  @Field("source") String source,
-                                  @Field("person_name") String person_name,
                                   @Field("status") String status,
                                   @Field("follow_up_date") String follow_up_date,
                                   @Field("launch_dc") String launch_dc,
@@ -118,5 +110,9 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<SuccessModel> sourcePieCount(@Field("source") String source);
 
+
+    @POST(EndApi.WS_VISITOR_HISTORY)
+    @FormUrlEncoded
+    Call<SuccessModel> visitorHistory(@Field("visitor_id") String visitor_id);
 
 }

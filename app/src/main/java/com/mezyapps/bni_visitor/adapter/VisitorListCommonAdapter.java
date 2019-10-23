@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mezyapps.bni_visitor.R;
 import com.mezyapps.bni_visitor.activity.EditVisitorDetailsActivity;
+import com.mezyapps.bni_visitor.activity.HistoryActivity;
 import com.mezyapps.bni_visitor.model.VisitorListStatusModel;
 
 import java.util.ArrayList;
@@ -54,10 +55,21 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
         holder.textSource.setText(visitorListStatusModel.getSource());
         holder.textCategory.setText(visitorListStatusModel.getCategory());
 
-        holder.card_view_list.setOnClickListener(new View.OnClickListener() {
+        holder.iv_edit.setVisibility(View.VISIBLE);
+        holder.ll_history.setVisibility(View.VISIBLE);
+        holder.iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, EditVisitorDetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("VISITOR", (Parcelable) visitorListStatusModelArrayList.get(position));
+                mContext.startActivity(intent);
+            }
+        });
+        holder.textHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, HistoryActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("VISITOR", (Parcelable) visitorListStatusModelArrayList.get(position));
                 mContext.startActivity(intent);
@@ -83,10 +95,10 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory;
-        private LinearLayout llFollowUpDateTime;
+        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
+        private LinearLayout llFollowUpDateTime,ll_history;
         private CardView card_view_list;
-        private ImageView iv_call;
+        private ImageView iv_call,iv_edit;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -101,6 +113,9 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
             textCategory=itemView.findViewById(R.id.textCategory);
             llFollowUpDateTime=itemView.findViewById(R.id.llFollowUpDateTime);
             iv_call=itemView.findViewById(R.id.iv_call);
+            iv_edit=itemView.findViewById(R.id.iv_edit);
+            ll_history=itemView.findViewById(R.id.ll_history);
+            textHistory=itemView.findViewById(R.id.textHistory);
         }
     }
 }

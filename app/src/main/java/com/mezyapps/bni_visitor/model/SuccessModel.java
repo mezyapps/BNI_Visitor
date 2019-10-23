@@ -37,6 +37,18 @@ public class SuccessModel {
     @SerializedName("visitor_date_filter")
     private ArrayList<VisitorDateFilterModel> visitorDateFilterModelArrayList;
 
+    @SerializedName("visitor_history_list")
+    private ArrayList<VisitorHistoryModel> visitorHistoryModelArrayList;
+
+
+    public ArrayList<VisitorHistoryModel> getVisitorHistoryModelArrayList() {
+        return visitorHistoryModelArrayList;
+    }
+
+    public void setVisitorHistoryModelArrayList(ArrayList<VisitorHistoryModel> visitorHistoryModelArrayList) {
+        this.visitorHistoryModelArrayList = visitorHistoryModelArrayList;
+    }
+
     public ArrayList<VisitorDateFilterModel> getVisitorDateFilterModelArrayList() {
         return visitorDateFilterModelArrayList;
     }

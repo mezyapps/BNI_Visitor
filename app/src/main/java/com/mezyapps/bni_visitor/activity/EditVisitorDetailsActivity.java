@@ -53,32 +53,26 @@ import retrofit2.Response;
 
 public class EditVisitorDetailsActivity extends AppCompatActivity {
 
-    private AutoCompleteTextView textMobileNumber, textName, textEmail, textCategory, textLocation, textPersonName, textFollowUpDateTime, textDescription;
-    private String MobileNumber, Name, Email, Category, Location, ChapterName, Source, PersonName,FollowUpDateTime, LaunchDc, Description;
+    private AutoCompleteTextView textFollowUpDateTime, textDescription;
+    private String FollowUpDateTime, LaunchDc, Description;
     private ShowProgressDialog showProgressDialog;
     public static ApiInterface apiInterface;
-    private ArrayList<String> contactName = new ArrayList<>();
-    private ArrayList<String> mobile_No_list = new ArrayList<>();
     private ImageView iv_back;
     private Button btn_save;
-    private LinearLayout ll_person_name, ll_follow_up_date_time;
-    private ArrayAdapter<String> adapterNameMobile;
-    private ArrayAdapter<String> adapterName;
+    private LinearLayout  ll_follow_up_date_time;
     private String followUpDateTimeShow, followDate="", followTime="", status = "0",time="";
     private RadioGroup radioGroupStatus;
-    private Spinner SpinnerSource, SpinnerChapter, SpinnerLaunchDc;
+    private Spinner  SpinnerLaunchDc;
     private RadioButton rbFollow_UP, rbMember, rbNot_Interested;
 
     private VisitorListStatusModel visitorListStatusModel;
 
-    //Chapter List Spinner
-    private ArrayList<ChapterListModel> chapterListModelArrayList = new ArrayList<>();
-    private ArrayList<String> chapterStringArrayList = new ArrayList<>();
+
     //Chapter Launch Dc
     private ArrayList<LunchDcModel> lunchDcModelArrayList = new ArrayList<>();
     private ArrayList<String> launchDcStringArrayList = new ArrayList<>();
     String visitor_id;
-    private Boolean isChapterSelect = false, isSourceSelect = false, isLaunchDcSelect = false;
+    private Boolean isLaunchDcSelect = false;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
 
@@ -93,28 +87,17 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     private void find_View_IDs() {
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         showProgressDialog = new ShowProgressDialog(EditVisitorDetailsActivity.this);
-        textMobileNumber = findViewById(R.id.textMobileNumber);
-        textName = findViewById(R.id.textName);
+
         iv_back = findViewById(R.id.iv_back);
-        textEmail = findViewById(R.id.textEmail);
-        textCategory = findViewById(R.id.textCategory);
-        textLocation = findViewById(R.id.textLocation);
-        SpinnerSource = findViewById(R.id.SpinnerSource);
-        SpinnerChapter = findViewById(R.id.SpinnerChapter);
-        textPersonName = findViewById(R.id.textPersonName);
         textFollowUpDateTime = findViewById(R.id.textFollowUpDateTime);
         textDescription = findViewById(R.id.textDescription);
         SpinnerLaunchDc = findViewById(R.id.SpinnerLaunchDc);
-        ll_person_name = findViewById(R.id.ll_person_name);
         btn_save = findViewById(R.id.btn_save);
         radioGroupStatus = findViewById(R.id.radioGroupStatus);
         ll_follow_up_date_time = findViewById(R.id.ll_follow_up_date_time);
         rbFollow_UP = findViewById(R.id.rbFollow_UP);
         rbMember = findViewById(R.id.rbMember);
         rbNot_Interested = findViewById(R.id.rbNot_Interested);
-
-        textName.setThreshold(1);
-        textMobileNumber.setThreshold(1);
 
         String dateStrSend = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -145,15 +128,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         visitorListStatusModel = bundle.getParcelable("VISITOR");
         visitor_id = visitorListStatusModel.getVisitor_id();
         status = visitorListStatusModel.getStatus();
-        textName.setText(visitorListStatusModel.getName());
-        textMobileNumber.setText(visitorListStatusModel.getMobile_no());
-        textEmail.setText(visitorListStatusModel.getEmail_id());
-        textCategory.setText(visitorListStatusModel.getCategory());
-        textLocation.setText(visitorListStatusModel.getLocation());
-        ChapterName = visitorListStatusModel.getChapter_name();
-        Source = visitorListStatusModel.getSource();
         LaunchDc = visitorListStatusModel.getLaunch_dc();
-        textDescription.setText(visitorListStatusModel.getDescription());
 
         if (status.equalsIgnoreCase("0")) {
             rbFollow_UP.setChecked(true);
@@ -163,10 +138,6 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
             rbNot_Interested.setChecked(true);
         }
 
-        textMobileNumber.setCursorVisible(false);
-        textMobileNumber.setCursorVisible(false);
-        textEmail.setCursorVisible(false);
-        textEmail.setCursorVisible(false);
         textFollowUpDateTime.setFocusable(false);
         textFollowUpDateTime.setCursorVisible(false);
 
@@ -174,13 +145,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
 
 
     private void events() {
-        AccessContactList accessContactList = new AccessContactList();
-        accessContactList.execute("");
-
-
-        addAutoComplete();
         if (NetworkUtils.isNetworkAvailable(EditVisitorDetailsActivity.this)) {
-            chapterList();
             launchDcList();
         } else {
             NetworkUtils.isNetworkNotAvailable(EditVisitorDetailsActivity.this);
@@ -204,59 +169,8 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-        SpinnerSource.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isSourceSelect = true;
-                return false;
-            }
-        });
-        SpinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
 
-                if (isSourceSelect) {
-                    Source = parent.getItemAtPosition(position).toString();
-                    if (Source.equalsIgnoreCase("BNI Member") || Source.equalsIgnoreCase("Non BNI Member")) {
-                        ll_person_name.setVisibility(View.VISIBLE);
-                    } else {
-                        ll_person_name.setVisibility(View.GONE);
-                    }
-                    isSourceSelect = false;
-                } else {
-                   // Toast.makeText(EditVisitorDetailsActivity.this, Source, Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        SpinnerChapter.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isChapterSelect = true;
-                return false;
-            }
-        });
-
-        SpinnerChapter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                if (isChapterSelect) {
-                    ChapterName = parent.getItemAtPosition(position).toString();
-                    isChapterSelect = false;
-                } else {
-                    //Toast.makeText(EditVisitorDetailsActivity.this, ChapterName, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         SpinnerLaunchDc.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -265,7 +179,6 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
 
         SpinnerLaunchDc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -379,30 +292,9 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    private void addAutoComplete() {
-        adapterName = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, contactName);
-        textName.setAdapter(adapterName);
-
-        adapterNameMobile = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, mobile_No_list);
-        textMobileNumber.setAdapter(adapterNameMobile);
-
-        ArrayList<String> sourceArrayList = new ArrayList<>();
-        sourceArrayList.add("BNI Website");
-        sourceArrayList.add("Facebook");
-        sourceArrayList.add("Instagram");
-        sourceArrayList.add("Self");
-        sourceArrayList.add("BNI Member");
-        sourceArrayList.add("Non BNI Member");
-        ArrayAdapter arrayAdapter = new ArrayAdapter(EditVisitorDetailsActivity.this, android.R.layout.simple_spinner_item, sourceArrayList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SpinnerSource.setAdapter(arrayAdapter);
-        arrayAdapter.notifyDataSetChanged();
-
-    }
-
     private void callAddVisitor() {
         showProgressDialog.showDialog();
-        Call<SuccessModel> call = apiInterface.editVisitor(visitor_id,Name, MobileNumber, Email, Category, Location, ChapterName, Source, PersonName, status, FollowUpDateTime, LaunchDc, Description);
+        Call<SuccessModel> call = apiInterface.editVisitor(visitor_id, status, FollowUpDateTime, LaunchDc, Description);
         call.enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
@@ -444,40 +336,11 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     }
 
     private boolean validation() {
-        MobileNumber = textMobileNumber.getText().toString().trim();
-        Name = textName.getText().toString().trim();
-        Email = textEmail.getText().toString().trim();
-        Category = textCategory.getText().toString().trim();
-        Location = textLocation.getText().toString().trim();
-        //ChapterName = textChapterName.getText().toString().trim();
-        // Source = textSource.getText().toString().trim();
-        PersonName = textPersonName.getText().toString().trim();
+
         FollowUpDateTime = textFollowUpDateTime.getText().toString().trim();
-        //LaunchDc = textLaunchDc.getText().toString().trim();
         Description = textDescription.getText().toString().trim();
 
-        if (Name.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Name", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (MobileNumber.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Mobile Number", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (Email.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Email", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (Category.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Category", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (Location.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Location", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (ChapterName.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Chapter Name", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (Source.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Source Name", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (status.equalsIgnoreCase("")) {
+     if (status.equalsIgnoreCase("")) {
             Toast.makeText(this, "Select Status", Toast.LENGTH_SHORT).show();
             return false;
         } else if (LaunchDc.equalsIgnoreCase("")) {
@@ -491,97 +354,6 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getContactDetails() {
-        ContentResolver resolver = getContentResolver();
-        Cursor cursor = resolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-        while (cursor.moveToNext()) {
-            String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-            contactName.add(name);
-            Cursor phoneCursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-            if (phoneCursor.moveToNext()) {
-                String mobile_number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                mobile_No_list.add(mobile_number);
-            }
-
-        }
-
-    }
-
-    public class AccessContactList extends AsyncTask<String, String, String> {
-
-        String msg = "";
-        boolean isSuccess = false;
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected void onPostExecute(String message) {
-
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override
-        protected String doInBackground(String... strings) {
-
-            try {
-                getContactDetails();
-            } catch (Exception ex) {
-                isSuccess = false;
-                msg = ex.getMessage();
-            }
-
-            return msg;
-        }
-    }
-
-    private void chapterList() {
-        Call<SuccessModel> call = apiInterface.chapterList();
-        call.enqueue(new Callback<SuccessModel>() {
-            @Override
-            public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {
-                String str_response = new Gson().toJson(response.body());
-                Log.d("Response >>", str_response);
-
-                try {
-                    if (response.isSuccessful()) {
-                        SuccessModel successModule = response.body();
-                        chapterListModelArrayList.clear();
-                        String message = null, code = null;
-                        if (successModule != null) {
-                            message = successModule.getMessage();
-                            code = successModule.getCode();
-                            if (code.equalsIgnoreCase("1")) {
-                                chapterListModelArrayList = successModule.getChapterListModelArrayList();
-                                if (chapterListModelArrayList.size() != 0) {
-                                    chapterListModelArrayList = successModule.getChapterListModelArrayList();
-                                    for (ChapterListModel chapterListModel : chapterListModelArrayList) {
-                                        chapterStringArrayList.add(chapterListModel.getChapter_name());
-                                    }
-                                    ArrayAdapter arrayAdapter = new ArrayAdapter(EditVisitorDetailsActivity.this, android.R.layout.simple_spinner_item, chapterStringArrayList);
-                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    SpinnerChapter.setAdapter(arrayAdapter);
-                                    arrayAdapter.notifyDataSetChanged();
-                                }
-                            }
-                        } else {
-                            Toast.makeText(EditVisitorDetailsActivity.this, "Response Null", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SuccessModel> call, Throwable t) {
-            }
-        });
-    }
 
     private void launchDcList() {
         Call<SuccessModel> call = apiInterface.launchDcList();

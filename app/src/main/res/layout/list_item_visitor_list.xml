@@ -31,15 +31,32 @@
                 android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/textName"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Name"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/textName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:layout_weight="0.9"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.1"
+                    android:visibility="gone"
+                    android:id="@+id/iv_edit"
+                    android:src="@drawable/ic_vector_edit"/>
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -271,6 +288,39 @@
                 android:autoLink="email"
                 android:text="Follow Up"
                 android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:weightSum="3">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="History"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/textHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoLink="email"
+                android:text="Click Here"
+                android:textColor="@color/app_color"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

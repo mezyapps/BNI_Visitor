@@ -34,6 +34,7 @@ import com.mezyapps.bni_visitor.R;
 import com.mezyapps.bni_visitor.api_common.ApiClient;
 import com.mezyapps.bni_visitor.api_common.ApiInterface;
 import com.mezyapps.bni_visitor.fragment.AddVisitorFragment;
+import com.mezyapps.bni_visitor.fragment.HomeFragment;
 import com.mezyapps.bni_visitor.model.ChapterListModel;
 import com.mezyapps.bni_visitor.model.LunchDcModel;
 import com.mezyapps.bni_visitor.model.SuccessModel;
@@ -376,9 +377,9 @@ public class AddVisitorActivity extends AppCompatActivity {
                                 textPersonName.setText("");
                                 textDescription.setText("");
                                 textName.setSelection(0);
-                                successDialog.showDialog("Visitor Add Successfully");
+                                successDialog.showDialog("Visitor Added Successfully");
                             } else if (code.equalsIgnoreCase("2")) {
-                                errorDialog.showDialog("Already Visitor Added");
+                                errorDialog.showDialog("Visitor Already Added");
                             } else {
                                 errorDialog.showDialog("Visitor Not Add");
                             }
@@ -582,5 +583,11 @@ public class AddVisitorActivity extends AppCompatActivity {
             public void onFailure(Call<SuccessModel> call, Throwable t) {
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        HomeFragment.isRefresh=true;
     }
 }

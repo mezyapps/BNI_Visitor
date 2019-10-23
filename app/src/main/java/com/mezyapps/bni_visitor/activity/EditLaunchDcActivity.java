@@ -70,7 +70,7 @@ public class EditLaunchDcActivity extends AppCompatActivity {
                 launch_dc_name=edit_launch_dc.getText().toString().trim();
                 if(launch_dc_name.equalsIgnoreCase(""))
                 {
-                    Toast.makeText(EditLaunchDcActivity.this, "Please Enter Chapter Name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditLaunchDcActivity.this, "Please Enter Launch DC Name", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {

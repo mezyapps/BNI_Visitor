@@ -182,7 +182,7 @@ public class VisitorByDateActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         SuccessModel successModule = response.body();
                         visitorListAllModelArrayList.clear();
-                        visitorListAllModelArrayList.clear();
+                        visitorDateFilterModelArrayList.clear();
                         String message = null, code = null;
                         if (successModule != null) {
                             message = successModule.getMessage();
@@ -203,8 +203,11 @@ public class VisitorByDateActivity extends AppCompatActivity {
                                     allVisitorListAdapter.notifyDataSetChanged();
                                 }
                             } else {
-                                // text_view_empty.setVisibility(View.VISIBLE);
+                                allVisitorListAdapter=new AllVisitorListAdapter(VisitorByDateActivity.this,visitorListAllModelArrayList);
+                                recycler_view_all_visitor.setAdapter(allVisitorListAdapter);
                                 allVisitorListAdapter.notifyDataSetChanged();
+                                // text_view_empty.setVisibility(View.VISIBLE);
+                                visitorDateFilterAdapter.notifyDataSetChanged();
                             }
                         } else {
                             Toast.makeText(VisitorByDateActivity.this, "Response Null", Toast.LENGTH_SHORT).show();
@@ -240,7 +243,7 @@ public class VisitorByDateActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         SuccessModel successModule = response.body();
                         visitorListAllModelArrayList.clear();
-                        visitorListAllModelArrayList.clear();
+                        visitorDateFilterModelArrayList.clear();
 
                         String message = null, code = null;
                         if (successModule != null) {
@@ -263,9 +266,11 @@ public class VisitorByDateActivity extends AppCompatActivity {
 
                                 }
                             } else {
+                                allVisitorListAdapter=new AllVisitorListAdapter(VisitorByDateActivity.this,visitorListAllModelArrayList);
+                                recycler_view_all_visitor.setAdapter(allVisitorListAdapter);
+                                allVisitorListAdapter.notifyDataSetChanged();
                                 visitorDateFilterAdapter.notifyDataSetChanged();
                                 // text_view_empty.setVisibility(View.VISIBLE);
-                                allVisitorListAdapter.notifyDataSetChanged();
                             }
                         } else {
                             Toast.makeText(VisitorByDateActivity.this, "Response Null", Toast.LENGTH_SHORT).show();
@@ -338,7 +343,7 @@ public class VisitorByDateActivity extends AppCompatActivity {
                 text_today_date.setText(yesterday);
 
 
-                DateFormat sendDateFormat = new SimpleDateFormat("yyy-MM-dd");
+                DateFormat sendDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar calSend = Calendar.getInstance();
                 calSend.add(Calendar.DATE, -1);
                 String yesterdaySend=sendDateFormat.format(calSend.getTime());

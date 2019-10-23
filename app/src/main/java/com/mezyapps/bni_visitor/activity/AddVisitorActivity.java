@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import android.widget.TimePicker;
@@ -72,6 +73,7 @@ public class AddVisitorActivity extends AppCompatActivity {
     private String showDate, sendDate, time, followUpDateTimeShow, followUpDateTimeSend, status = "0", followDate = "", followTime = "";
     private RadioGroup radioGroupStatus;
     private Spinner SpinnerSource, SpinnerChapter, SpinnerLaunchDc;
+    private ScrollView scroll_add_visitor;
 
     //Chapter List Spinner
     private ArrayList<ChapterListModel> chapterListModelArrayList = new ArrayList<>();
@@ -112,6 +114,7 @@ public class AddVisitorActivity extends AppCompatActivity {
         SpinnerLaunchDc = findViewById(R.id.SpinnerLaunchDc);
         ll_person_name = findViewById(R.id.ll_person_name);
         btn_save = findViewById(R.id.btn_save);
+        scroll_add_visitor = findViewById(R.id.scroll_add_visitor);
         radioGroupStatus = findViewById(R.id.radioGroupStatus);
         ll_follow_up_date_time = findViewById(R.id.ll_follow_up_date_time);
         successDialog = new SuccessDialog(AddVisitorActivity.this);
@@ -377,6 +380,8 @@ public class AddVisitorActivity extends AppCompatActivity {
                                 textPersonName.setText("");
                                 textDescription.setText("");
                                 textName.setSelection(0);
+                                textName.requestFocus();
+                                scroll_add_visitor.pageScroll(View.FOCUS_UP);
                                 successDialog.showDialog("Visitor Added Successfully");
                             } else if (code.equalsIgnoreCase("2")) {
                                 errorDialog.showDialog("Visitor Already Added");

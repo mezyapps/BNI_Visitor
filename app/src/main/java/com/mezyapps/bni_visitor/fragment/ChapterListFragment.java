@@ -221,11 +221,11 @@ public class ChapterListFragment extends Fragment  implements ChapterSelectInter
                                 }
                                 else
                                 {
-                                    text_view_empty.setVisibility(View.VISIBLE);
+                                   // text_view_empty.setVisibility(View.VISIBLE);
                                     chapterListAdapter.notifyDataSetChanged();
                                 }
                             } else {
-                                text_view_empty.setVisibility(View.VISIBLE);
+                               // text_view_empty.setVisibility(View.VISIBLE);
                                 chapterListAdapter.notifyDataSetChanged();
                             }
                         } else {

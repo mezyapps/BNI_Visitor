@@ -1,10 +1,13 @@
 package com.mezyapps.bni_visitor.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -12,14 +15,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -32,13 +39,18 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mezyapps.bni_visitor.R;
+import com.mezyapps.bni_visitor.adapter.ContactDetailsAdapter;
+import com.mezyapps.bni_visitor.adapter.ContactListAdapter;
 import com.mezyapps.bni_visitor.api_common.ApiClient;
 import com.mezyapps.bni_visitor.api_common.ApiInterface;
 import com.mezyapps.bni_visitor.fragment.AddVisitorFragment;
 import com.mezyapps.bni_visitor.fragment.HomeFragment;
 import com.mezyapps.bni_visitor.model.ChapterListModel;
+import com.mezyapps.bni_visitor.model.ContactDetailsModel;
+import com.mezyapps.bni_visitor.model.ContactListModel;
 import com.mezyapps.bni_visitor.model.LunchDcModel;
 import com.mezyapps.bni_visitor.model.SuccessModel;
+import com.mezyapps.bni_visitor.utils.ContactListInterface;
 import com.mezyapps.bni_visitor.utils.ErrorDialog;
 import com.mezyapps.bni_visitor.utils.NetworkUtils;
 import com.mezyapps.bni_visitor.utils.ShowProgressDialog;
@@ -56,16 +68,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddVisitorActivity extends AppCompatActivity {
+public class AddVisitorActivity extends AppCompatActivity implements ContactListInterface {
 
     private AutoCompleteTextView textMobileNumber, textName, textEmail, textCategory, textLocation, textPersonName,
             textCurrentDateTime, textFollowUpDateTime, textDescription;
     private String MobileNumber, Name, Email, Category, Location, ChapterName, Source, PersonName, CurrentDateTime, FollowUpDateTime, LaunchDc, Description;
     private ShowProgressDialog showProgressDialog;
     public static ApiInterface apiInterface;
-    private ArrayList<String> contactName = new ArrayList<>();
-    private ArrayList<String> mobile_No_list = new ArrayList<>();
-    private ImageView iv_back;
+    private ImageView iv_back,iv_contact;
     private Button btn_save;
     private LinearLayout ll_person_name, ll_follow_up_date_time;
     private ArrayAdapter<String> adapterNameMobile;
@@ -85,6 +95,12 @@ public class AddVisitorActivity extends AppCompatActivity {
     private TimePickerDialog timePickerDialog;
     private SuccessDialog successDialog;
     private ErrorDialog errorDialog;
+    private ArrayList<ContactListModel> contactListModelArrayList=new ArrayList<>();
+    //Contact Dialog
+    private Dialog contactDialog;
+    private EditText edt_search;
+    private RecyclerView recyclerView_contact;
+    private ContactListAdapter contactListAdapter;
 
 
     @Override
@@ -99,6 +115,7 @@ public class AddVisitorActivity extends AppCompatActivity {
     private void find_View_IDs() {
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         showProgressDialog = new ShowProgressDialog(AddVisitorActivity.this);
+
         textMobileNumber = findViewById(R.id.textMobileNumber);
         textName = findViewById(R.id.textName);
         iv_back = findViewById(R.id.iv_back);
@@ -114,13 +131,24 @@ public class AddVisitorActivity extends AppCompatActivity {
         SpinnerLaunchDc = findViewById(R.id.SpinnerLaunchDc);
         ll_person_name = findViewById(R.id.ll_person_name);
         btn_save = findViewById(R.id.btn_save);
+        iv_contact = findViewById(R.id.iv_contact);
         scroll_add_visitor = findViewById(R.id.scroll_add_visitor);
         radioGroupStatus = findViewById(R.id.radioGroupStatus);
         ll_follow_up_date_time = findViewById(R.id.ll_follow_up_date_time);
         successDialog = new SuccessDialog(AddVisitorActivity.this);
         errorDialog = new ErrorDialog(AddVisitorActivity.this);
-        textName.setThreshold(1);
-        textMobileNumber.setThreshold(1);
+
+
+        //Contact Dialog
+        contactDialog = new Dialog(AddVisitorActivity.this);
+        contactDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        contactDialog.setCancelable(true);
+        contactDialog.setContentView(R.layout.dialog_conatct_dialog);
+        recyclerView_contact= contactDialog.findViewById(R.id.recyclerView_contact);
+        edt_search= contactDialog.findViewById(R.id.edt_search);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(AddVisitorActivity.this);
+        recyclerView_contact.setLayoutManager(linearLayoutManager);
+
 
 
         showDate = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", Locale.getDefault()).format(new Date());
@@ -160,8 +188,6 @@ public class AddVisitorActivity extends AppCompatActivity {
 
 
     private void events() {
-        AccessContactList accessContactList = new AccessContactList();
-        accessContactList.execute("");
 
         addAutoComplete();
 
@@ -226,6 +252,7 @@ public class AddVisitorActivity extends AppCompatActivity {
             }
         });
 
+
         SpinnerLaunchDc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
@@ -270,6 +297,91 @@ public class AddVisitorActivity extends AppCompatActivity {
                 }
             }
         });
+
+        iv_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edt_search.setText("");
+                AccessContactList accessContactList = new AccessContactList();
+                accessContactList.execute("");
+            }
+        });
+
+        edt_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edt_search.setFocusableInTouchMode(true);
+            }
+        });
+
+
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    edt_search.setFocusableInTouchMode(true);
+                    contactListAdapter.getFilter().filter(edt_search.getText().toString());
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    public class AccessContactList extends AsyncTask<String, String, String> {
+
+        String msg = "";
+        boolean isSuccess = false;
+
+        @Override
+        protected void onPreExecute() {
+            contactDialog.show();
+            showProgressDialog.showDialog();
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            showProgressDialog.dismissDialog();
+            if (isSuccess) {
+             setAdapter();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+                getContactDetails();
+                isSuccess = true;
+            } catch (Exception ex) {
+                isSuccess = false;
+                msg = ex.getMessage();
+            }
+
+            return msg;
+        }
+    }
+
+    private void setAdapter() {
+        showProgressDialog.dismissDialog();
+        contactListAdapter = new ContactListAdapter(AddVisitorActivity.this, contactListModelArrayList,this);
+        Window window = contactDialog.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        recyclerView_contact.setAdapter(contactListAdapter);
+        contactListAdapter.notifyDataSetChanged();
     }
 
     private void datePicker() {
@@ -334,11 +446,6 @@ public class AddVisitorActivity extends AppCompatActivity {
 
 
     private void addAutoComplete() {
-        adapterName = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, contactName);
-        textName.setAdapter(adapterName);
-
-        adapterNameMobile = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, mobile_No_list);
-        textMobileNumber.setAdapter(adapterNameMobile);
 
         ArrayList<String> sourceArrayList = new ArrayList<>();
         sourceArrayList.add("BNI Website");
@@ -458,52 +565,23 @@ public class AddVisitorActivity extends AppCompatActivity {
     }
 
     private void getContactDetails() {
+        contactListModelArrayList.clear();
         ContentResolver resolver = getContentResolver();
         Cursor cursor = resolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         while (cursor.moveToNext()) {
             String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-            contactName.add(name);
+           String mobile_number = "";
             Cursor phoneCursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
             if (phoneCursor.moveToNext()) {
-                String mobile_number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                mobile_No_list.add(mobile_number);
+                mobile_number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
             }
-
+            contactListModelArrayList.add(new ContactListModel(name,mobile_number));
         }
-
     }
 
-    public class AccessContactList extends AsyncTask<String, String, String> {
-
-        String msg = "";
-        boolean isSuccess = false;
-
-        @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected void onPostExecute(String message) {
-
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override
-        protected String doInBackground(String... strings) {
-
-            try {
-                getContactDetails();
-            } catch (Exception ex) {
-                isSuccess = false;
-                msg = ex.getMessage();
-            }
-
-            return msg;
-        }
-    }
 
     private void chapterList() {
         Call<SuccessModel> call = apiInterface.chapterList();
@@ -594,5 +672,13 @@ public class AddVisitorActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         HomeFragment.isRefresh=true;
+    }
+
+    @Override
+    public void selectContact(String name,String number) {
+        contactDialog.dismiss();
+        textName.setText(name);
+        textMobileNumber.setText(number);
+
     }
 }

@@ -33,9 +33,9 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scroll_add_visitor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scroll_add_visitor">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,15 +59,35 @@
                     android:textStyle="bold" />
 
 
-                <AutoCompleteTextView
-                    android:id="@+id/textName"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_edit_background"
-                    android:inputType="text"
-                    android:padding="10dp"
-                    android:textAllCaps="true" />
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/textName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/shape_edit_background"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textAllCaps="true" />
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_contact"
+                        android:src="@drawable/ic_vector_phone_book"
+                        android:background="@drawable/shape_edit_background"
+                        android:layout_weight="2.5"/>
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -203,8 +223,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/shape_edit_background">
+                    android:background="@drawable/shape_edit_background"
+                    android:padding="10dp">
 
                     <Spinner
                         android:id="@+id/SpinnerChapter"
@@ -213,7 +233,6 @@
                         android:dropDownSelector="@drawable/ic_vector_arrow_drop_down"
                         android:spinnerMode="dropdown" />
                 </LinearLayout>
-
 
 
             </LinearLayout>
@@ -237,8 +256,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/shape_edit_background">
+                    android:background="@drawable/shape_edit_background"
+                    android:padding="10dp">
 
                     <Spinner
                         android:id="@+id/SpinnerSource"
@@ -422,8 +441,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/shape_edit_background">
+                    android:background="@drawable/shape_edit_background"
+                    android:padding="10dp">
 
                     <Spinner
                         android:id="@+id/SpinnerLaunchDc"

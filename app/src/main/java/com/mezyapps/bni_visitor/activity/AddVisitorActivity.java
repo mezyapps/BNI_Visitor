@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 import retrofit2.Call;
@@ -75,7 +76,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
     private String MobileNumber, Name, Email, Category, Location, ChapterName, Source, PersonName, CurrentDateTime, FollowUpDateTime, LaunchDc, Description;
     private ShowProgressDialog showProgressDialog;
     public static ApiInterface apiInterface;
-    private ImageView iv_back,iv_contact;
+    private ImageView iv_back, iv_contact;
     private Button btn_save;
     private LinearLayout ll_person_name, ll_follow_up_date_time;
     private ArrayAdapter<String> adapterNameMobile;
@@ -95,12 +96,16 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
     private TimePickerDialog timePickerDialog;
     private SuccessDialog successDialog;
     private ErrorDialog errorDialog;
-    private ArrayList<ContactListModel> contactListModelArrayList=new ArrayList<>();
+    private ArrayList<ContactListModel> contactListModelArrayList = new ArrayList<>();
     //Contact Dialog
     private Dialog contactDialog;
     private EditText edt_search;
     private RecyclerView recyclerView_contact;
     private ContactListAdapter contactListAdapter;
+    private static final String[] PROJECTION = new String[] {
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+            ContactsContract.Contacts.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER};
 
 
     @Override
@@ -144,11 +149,10 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         contactDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         contactDialog.setCancelable(true);
         contactDialog.setContentView(R.layout.dialog_conatct_dialog);
-        recyclerView_contact= contactDialog.findViewById(R.id.recyclerView_contact);
-        edt_search= contactDialog.findViewById(R.id.edt_search);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(AddVisitorActivity.this);
+        recyclerView_contact = contactDialog.findViewById(R.id.recyclerView_contact);
+        edt_search = contactDialog.findViewById(R.id.edt_search);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddVisitorActivity.this);
         recyclerView_contact.setLayoutManager(linearLayoutManager);
-
 
 
         showDate = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", Locale.getDefault()).format(new Date());
@@ -326,9 +330,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
                 try {
                     edt_search.setFocusableInTouchMode(true);
                     contactListAdapter.getFilter().filter(edt_search.getText().toString());
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -356,7 +358,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         protected void onPostExecute(String message) {
             showProgressDialog.dismissDialog();
             if (isSuccess) {
-             setAdapter();
+                setAdapter();
             }
         }
 
@@ -377,7 +379,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
 
     private void setAdapter() {
         showProgressDialog.dismissDialog();
-        contactListAdapter = new ContactListAdapter(AddVisitorActivity.this, contactListModelArrayList,this);
+        contactListAdapter = new ContactListAdapter(AddVisitorActivity.this, contactListModelArrayList, this);
         Window window = contactDialog.getWindow();
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         recyclerView_contact.setAdapter(contactListAdapter);
@@ -565,20 +567,46 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
     }
 
     private void getContactDetails() {
-        contactListModelArrayList.clear();
+     /*   contactListModelArrayList.clear();
         ContentResolver resolver = getContentResolver();
         Cursor cursor = resolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-        while (cursor.moveToNext()) {
+        while (cursor!=null&&cursor.moveToNext()) {
+
             String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-           String mobile_number = "";
+            String mobile_number = "";
             Cursor phoneCursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-            if (phoneCursor.moveToNext()) {
+            if (phoneCursor!=null&&phoneCursor.moveToNext()) {
                 mobile_number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
             }
-            contactListModelArrayList.add(new ContactListModel(name,mobile_number));
+            if(!name.equalsIgnoreCase("")&&!mobile_number.equalsIgnoreCase("")) {
+                contactListModelArrayList.add(new ContactListModel(name, mobile_number));
+            }
+            phoneCursor.close();
+        }
+        cursor.close();*/
+
+        contactListModelArrayList.clear();
+        ContentResolver cr = getContentResolver();
+        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
+        if (cursor != null) {
+            try {
+                final int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                final int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                String name, number;
+                while ((cursor!=null)&&(cursor.moveToNext())) {
+                    name = cursor.getString(nameIndex);
+                    number = cursor.getString(numberIndex);
+                    if(!name.equalsIgnoreCase("")&& !number.equalsIgnoreCase("")) {
+                        contactListModelArrayList.add(new ContactListModel(name, number));
+                    }
+                }
+            } finally {
+                cursor.close();
+            }
         }
     }
 
@@ -671,11 +699,11 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        HomeFragment.isRefresh=true;
+        HomeFragment.isRefresh = true;
     }
 
     @Override
-    public void selectContact(String name,String number) {
+    public void selectContact(String name, String number) {
         contactDialog.dismiss();
         textName.setText(name);
         textMobileNumber.setText(number);

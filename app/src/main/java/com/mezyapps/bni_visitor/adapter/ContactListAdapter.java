@@ -17,6 +17,9 @@ import com.mezyapps.bni_visitor.model.ContactListModel;
 import com.mezyapps.bni_visitor.utils.ContactListInterface;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.MyViewHolder> implements Filterable {
 
@@ -84,8 +87,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                     try {
                         ArrayList<ContactListModel> filteredList = new ArrayList<>();
                         for (int i = 0; i < contactListModelArrayList.size(); i++) {
-                            String name = contactListModelArrayList.get(i).getName().replaceAll("\\s", "").toLowerCase().trim();
-                            String contact = contactListModelArrayList.get(i).getContact().replaceAll("\\s", "").toLowerCase().trim();
+                            String name=contactListModelArrayList.get(i).getName().replaceAll("\\s","").toLowerCase().trim();
+                            String  contact=contactListModelArrayList.get(i).getContact().toLowerCase().replaceAll("\\s","").toLowerCase().trim();
                             if ((name.contains(charString))||(contact.contains(charString))) {
                                 filteredList.add(contactListModelArrayList.get(i));
                             }

@@ -555,9 +555,6 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         } else if (LaunchDc.equalsIgnoreCase("")) {
             Toast.makeText(this, "Select Launch Dc", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (Description.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Description", Toast.LENGTH_SHORT).show();
-            return false;
         }
 
         return true;

@@ -220,4 +220,10 @@ public class VisitorByLaunchDcPieActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callPieChartCount();
+    }
 }

@@ -3,6 +3,7 @@ package com.mezyapps.bni_visitor.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mezyapps.bni_visitor.R;
+import com.mezyapps.bni_visitor.activity.EditVisitorDetailsActivity;
+import com.mezyapps.bni_visitor.activity.HistoryActivity;
 import com.mezyapps.bni_visitor.model.VisitorListAllModel;
 import com.mezyapps.bni_visitor.model.VisitorListStatusModel;
 
@@ -37,7 +40,7 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AllVisitorListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AllVisitorListAdapter.MyViewHolder holder, final int position) {
         final  VisitorListAllModel visitorListAllModel=visitorListAllModelArrayList.get(position);
         String status=visitorListAllModel.getStatus();
         holder.textName.setText(visitorListAllModel.getName());
@@ -57,6 +60,29 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
             }
         });
 
+
+        holder.iv_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EditVisitorDetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("VISITOR_ID",  visitorListAllModelArrayList.get(position).getVisitor_id());
+                intent.putExtra("VISITOR_STATUS",  visitorListAllModelArrayList.get(position).getStatus());
+                intent.putExtra("VISITOR_LAUNCH_DC",  visitorListAllModelArrayList.get(position).getLaunch_dc());
+                mContext.startActivity(intent);
+            }
+        });
+        holder.textHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, HistoryActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("VISITOR", visitorListAllModelArrayList.get(position).getVisitor_id());
+                mContext.startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -65,10 +91,10 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory;
+        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
         private LinearLayout llFollowUpDateTime;
         private CardView card_view_list;
-        private ImageView iv_call;
+        private ImageView iv_call,iv_edit;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -83,6 +109,8 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
             textCategory=itemView.findViewById(R.id.textCategory);
             llFollowUpDateTime=itemView.findViewById(R.id.llFollowUpDateTime);
             iv_call=itemView.findViewById(R.id.iv_call);
+            textHistory=itemView.findViewById(R.id.textHistory);
+            iv_edit=itemView.findViewById(R.id.iv_edit);
         }
     }
 }

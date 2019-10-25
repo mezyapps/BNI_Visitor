@@ -52,7 +52,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2.1"
-                    android:visibility="gone"
                     android:id="@+id/iv_edit"
                     android:src="@drawable/ic_vector_edit"/>
             </LinearLayout>
@@ -266,7 +265,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp"
-            android:visibility="gone"
             android:weightSum="3">
 
 
@@ -299,7 +297,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp"
-            android:visibility="gone"
             android:weightSum="3">
 
 

@@ -34,19 +34,16 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_visitor_list,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_visitor_list, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        final  VisitorListStatusModel visitorListStatusModel=visitorListStatusModelArrayList.get(position);
-        String status=visitorListStatusModel.getStatus();
-        if(status.equalsIgnoreCase("0"))
-        {
-            holder.llFollowUpDateTime.setVisibility(View.VISIBLE);
-            holder.textFollowUpDateTime.setText(visitorListStatusModel.getFollow_up_date_time());
-        }
+        final VisitorListStatusModel visitorListStatusModel = visitorListStatusModelArrayList.get(position);
+        String status = visitorListStatusModel.getStatus();
+
+        holder.textFollowUpDateTime.setText(visitorListStatusModel.getFollow_up_date_time());
         holder.textName.setText(visitorListStatusModel.getName());
         holder.textMobileNumber.setText(visitorListStatusModel.getMobile_no());
         holder.textEmail.setText(visitorListStatusModel.getEmail_id());
@@ -55,33 +52,34 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
         holder.textSource.setText(visitorListStatusModel.getSource());
         holder.textCategory.setText(visitorListStatusModel.getCategory());
 
-        holder.iv_edit.setVisibility(View.VISIBLE);
-        holder.ll_history.setVisibility(View.VISIBLE);
+
         holder.iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, EditVisitorDetailsActivity.class);
+                Intent intent = new Intent(mContext, EditVisitorDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("VISITOR", (Parcelable) visitorListStatusModelArrayList.get(position));
+                intent.putExtra("VISITOR_ID",  visitorListStatusModelArrayList.get(position).getVisitor_id());
+                intent.putExtra("VISITOR_STATUS",  visitorListStatusModelArrayList.get(position).getStatus());
+                intent.putExtra("VISITOR_LAUNCH_DC",  visitorListStatusModelArrayList.get(position).getLaunch_dc());
                 mContext.startActivity(intent);
             }
         });
         holder.textHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, HistoryActivity.class);
+                Intent intent = new Intent(mContext, HistoryActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("VISITOR", (Parcelable) visitorListStatusModelArrayList.get(position));
+                intent.putExtra("VISITOR", visitorListStatusModelArrayList.get(position).getVisitor_id());
                 mContext.startActivity(intent);
             }
         });
 
-        final String mobile_number=visitorListStatusModel.getMobile_no();
+        final String mobile_number = visitorListStatusModel.getMobile_no();
 
         holder.iv_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+mobile_number));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile_number));
                 mContext.startActivity(intent);
             }
         });
@@ -95,27 +93,28 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
-        private LinearLayout llFollowUpDateTime,ll_history;
+        private TextView textName, textMobileNumber, textEmail, textChapterName, textLaunch_dc, textSource, textFollowUpDateTime, textCategory, textHistory;
+        private LinearLayout llFollowUpDateTime, ll_history;
         private CardView card_view_list;
         private ImageView iv_call,iv_edit;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textName=itemView.findViewById(R.id.textName);
-            textMobileNumber=itemView.findViewById(R.id.textMobileNumber);
-            textEmail=itemView.findViewById(R.id.textEmail);
-            textChapterName=itemView.findViewById(R.id.textChapterName);
-            textLaunch_dc=itemView.findViewById(R.id.textLaunch_dc);
-            card_view_list=itemView.findViewById(R.id.card_view_list);
-            textSource=itemView.findViewById(R.id.textSource);
-            textFollowUpDateTime=itemView.findViewById(R.id.textFollowUpDateTime);
-            textCategory=itemView.findViewById(R.id.textCategory);
-            llFollowUpDateTime=itemView.findViewById(R.id.llFollowUpDateTime);
-            iv_call=itemView.findViewById(R.id.iv_call);
-            iv_edit=itemView.findViewById(R.id.iv_edit);
-            ll_history=itemView.findViewById(R.id.ll_history);
-            textHistory=itemView.findViewById(R.id.textHistory);
+            textName = itemView.findViewById(R.id.textName);
+            textMobileNumber = itemView.findViewById(R.id.textMobileNumber);
+            textEmail = itemView.findViewById(R.id.textEmail);
+            textChapterName = itemView.findViewById(R.id.textChapterName);
+            textLaunch_dc = itemView.findViewById(R.id.textLaunch_dc);
+            card_view_list = itemView.findViewById(R.id.card_view_list);
+            textSource = itemView.findViewById(R.id.textSource);
+            textFollowUpDateTime = itemView.findViewById(R.id.textFollowUpDateTime);
+            textCategory = itemView.findViewById(R.id.textCategory);
+            llFollowUpDateTime = itemView.findViewById(R.id.llFollowUpDateTime);
+            iv_call = itemView.findViewById(R.id.iv_call);
+            iv_edit = itemView.findViewById(R.id.iv_edit);
+            ll_history = itemView.findViewById(R.id.ll_history);
+            textHistory = itemView.findViewById(R.id.textHistory);
         }
     }
 }

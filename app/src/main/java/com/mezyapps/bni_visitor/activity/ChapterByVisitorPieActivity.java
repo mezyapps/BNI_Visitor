@@ -227,4 +227,9 @@ public class ChapterByVisitorPieActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callPieChartCount();
+    }
 }

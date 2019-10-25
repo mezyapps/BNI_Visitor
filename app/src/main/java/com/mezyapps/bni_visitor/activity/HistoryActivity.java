@@ -33,7 +33,6 @@ public class HistoryActivity extends AppCompatActivity {
     private RecyclerView recycler_view_all_history;
     public static ApiInterface apiInterface;
     private ImageView iv_back;
-    private VisitorListStatusModel visitorListStatusModel;
     private String visitor_id;
     private ShowProgressDialog showProgressDialog;
     private ArrayList<VisitorHistoryModel> visitorHistoryModelArrayList=new ArrayList<>();
@@ -55,9 +54,9 @@ public class HistoryActivity extends AppCompatActivity {
         showProgressDialog=new ShowProgressDialog(HistoryActivity.this);
 
         Bundle bundle = getIntent().getExtras();
-        visitorListStatusModel = bundle.getParcelable("VISITOR");
-        visitor_id = visitorListStatusModel.getVisitor_id();
-
+        if(bundle!=null) {
+            visitor_id = bundle.getString("VISITOR");
+        }
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(HistoryActivity.this);
         recycler_view_all_history.setLayoutManager(linearLayoutManager);
 

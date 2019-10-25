@@ -221,4 +221,11 @@ public class VisitorBySourcePieActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callPieChartCount();
+
+    }
 }

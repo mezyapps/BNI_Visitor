@@ -17,6 +17,7 @@ import com.mezyapps.bni_visitor.adapter.VisitorByChapterAdapter;
 import com.mezyapps.bni_visitor.adapter.VisitorBySourceAdapter;
 import com.mezyapps.bni_visitor.api_common.ApiClient;
 import com.mezyapps.bni_visitor.api_common.ApiInterface;
+import com.mezyapps.bni_visitor.fragment.HomeFragment;
 import com.mezyapps.bni_visitor.model.ChapterListModel;
 import com.mezyapps.bni_visitor.model.SuccessModel;
 import com.mezyapps.bni_visitor.utils.NetworkUtils;
@@ -123,5 +124,17 @@ public class VisitorByChapterActivity extends AppCompatActivity {
                 showProgressDialog.dismissDialog();
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        chapterList();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        HomeFragment.isRefresh=true;
     }
 }

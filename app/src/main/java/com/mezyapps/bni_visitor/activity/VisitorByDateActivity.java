@@ -24,6 +24,7 @@ import com.mezyapps.bni_visitor.adapter.VisitorDateFilterAdapter;
 import com.mezyapps.bni_visitor.api_common.ApiClient;
 import com.mezyapps.bni_visitor.api_common.ApiInterface;
 import com.mezyapps.bni_visitor.fragment.AddVisitorFragment;
+import com.mezyapps.bni_visitor.fragment.HomeFragment;
 import com.mezyapps.bni_visitor.model.SuccessModel;
 import com.mezyapps.bni_visitor.model.VisitorDateFilterModel;
 import com.mezyapps.bni_visitor.model.VisitorListAllModel;
@@ -532,5 +533,17 @@ public class VisitorByDateActivity extends AppCompatActivity {
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callAllVisitorList();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        HomeFragment.isRefresh=true;
     }
 }

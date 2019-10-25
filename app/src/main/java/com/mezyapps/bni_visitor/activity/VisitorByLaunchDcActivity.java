@@ -15,6 +15,7 @@ import com.mezyapps.bni_visitor.R;
 import com.mezyapps.bni_visitor.adapter.VisitorByLaunchDcAdapter;
 import com.mezyapps.bni_visitor.api_common.ApiClient;
 import com.mezyapps.bni_visitor.api_common.ApiInterface;
+import com.mezyapps.bni_visitor.fragment.HomeFragment;
 import com.mezyapps.bni_visitor.model.LunchDcModel;
 import com.mezyapps.bni_visitor.model.SuccessModel;
 import com.mezyapps.bni_visitor.utils.NetworkUtils;
@@ -124,5 +125,17 @@ public class VisitorByLaunchDcActivity extends AppCompatActivity {
                 showProgressDialog.dismissDialog();
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        launchDcList();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        HomeFragment.isRefresh=true;
     }
 }

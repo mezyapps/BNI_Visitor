@@ -3,6 +3,7 @@ package com.mezyapps.bni_visitor.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mezyapps.bni_visitor.R;
+import com.mezyapps.bni_visitor.activity.EditVisitorDetailsActivity;
+import com.mezyapps.bni_visitor.activity.HistoryActivity;
 import com.mezyapps.bni_visitor.model.VisitorBySourceModel;
 import com.mezyapps.bni_visitor.model.VisitorDateFilterModel;
 
@@ -38,7 +41,7 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VisitorDateFilterAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull VisitorDateFilterAdapter.MyViewHolder holder, final int position) {
         final VisitorDateFilterModel visitorDateFilterModel = visitorDateFilterModelArrayList.get(position);
         String status = visitorDateFilterModel.getStatus();
         holder.textName.setText(visitorDateFilterModel.getName());
@@ -59,6 +62,27 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
             }
         });
 
+        holder.iv_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EditVisitorDetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("VISITOR_ID",  visitorDateFilterModelArrayList.get(position).getVisitor_id());
+                intent.putExtra("VISITOR_STATUS",  visitorDateFilterModelArrayList.get(position).getStatus());
+                intent.putExtra("VISITOR_LAUNCH_DC",  visitorDateFilterModelArrayList.get(position).getLaunch_dc());
+                mContext.startActivity(intent);
+            }
+        });
+        holder.textHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, HistoryActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("VISITOR", visitorDateFilterModelArrayList.get(position).getVisitor_id());
+                mContext.startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -68,10 +92,10 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory;
+        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
         private LinearLayout llFollowUpDateTime;
         private CardView card_view_list;
-        private ImageView iv_call;
+        private ImageView iv_call,iv_edit;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -86,6 +110,8 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
             textCategory=itemView.findViewById(R.id.textCategory);
             llFollowUpDateTime=itemView.findViewById(R.id.llFollowUpDateTime);
             iv_call=itemView.findViewById(R.id.iv_call);
+            iv_edit=itemView.findViewById(R.id.iv_edit);
+            textHistory=itemView.findViewById(R.id.textHistory);
         }
     }
 }

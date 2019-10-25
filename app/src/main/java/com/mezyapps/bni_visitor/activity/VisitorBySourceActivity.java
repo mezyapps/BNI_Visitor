@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.mezyapps.bni_visitor.R;
 import com.mezyapps.bni_visitor.adapter.SourceListAdapter;
+import com.mezyapps.bni_visitor.fragment.HomeFragment;
 
 import java.util.ArrayList;
 
@@ -54,6 +55,12 @@ public class VisitorBySourceActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        HomeFragment.isRefresh=true;
     }
 }
 

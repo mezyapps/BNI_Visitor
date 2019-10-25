@@ -65,8 +65,6 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     private Spinner  SpinnerLaunchDc;
     private RadioButton rbFollow_UP, rbMember, rbNot_Interested;
 
-    private VisitorListStatusModel visitorListStatusModel;
-
 
     //Chapter Launch Dc
     private ArrayList<LunchDcModel> lunchDcModelArrayList = new ArrayList<>();
@@ -125,10 +123,11 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
 
 
         Bundle bundle = getIntent().getExtras();
-        visitorListStatusModel = bundle.getParcelable("VISITOR");
-        visitor_id = visitorListStatusModel.getVisitor_id();
-        status = visitorListStatusModel.getStatus();
-        LaunchDc = visitorListStatusModel.getLaunch_dc();
+        if (bundle!=null) {
+            visitor_id =bundle.getString("VISITOR_ID");
+            status = bundle.getString("VISITOR_STATUS");
+            LaunchDc =bundle.getString("VISITOR_LAUNCH_DC") ;
+        }
 
         if (status.equalsIgnoreCase("0")) {
             rbFollow_UP.setChecked(true);

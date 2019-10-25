@@ -130,4 +130,10 @@ public class VisitorByLaunchDcDisplayActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callVisitorListChapter();
+    }
 }

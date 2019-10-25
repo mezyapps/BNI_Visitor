@@ -134,4 +134,10 @@ public class VisitorBySourceListActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callVisitorListSource();
+    }
 }

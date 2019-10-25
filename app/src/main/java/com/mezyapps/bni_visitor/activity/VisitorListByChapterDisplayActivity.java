@@ -130,4 +130,10 @@ public class VisitorListByChapterDisplayActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        callVisitorListChapter();
+    }
 }

@@ -44,6 +44,7 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
         final  VisitorListAllModel visitorListAllModel=visitorListAllModelArrayList.get(position);
         String status=visitorListAllModel.getStatus();
         holder.textName.setText(visitorListAllModel.getName());
+        holder.textFollowUpDateTime.setText(visitorListAllModel.getFollow_up_date_time());
         holder.textMobileNumber.setText(visitorListAllModel.getMobile_no());
         holder.textEmail.setText(visitorListAllModel.getEmail_id());
         holder.textChapterName.setText(visitorListAllModel.getChapter_name());

@@ -44,6 +44,7 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
     public void onBindViewHolder(@NonNull VisitorDateFilterAdapter.MyViewHolder holder, final int position) {
         final VisitorDateFilterModel visitorDateFilterModel = visitorDateFilterModelArrayList.get(position);
         String status = visitorDateFilterModel.getStatus();
+        holder.textFollowUpDateTime.setText(visitorDateFilterModel.getFollow_up_date_time());
         holder.textName.setText(visitorDateFilterModel.getName());
         holder.textMobileNumber.setText(visitorDateFilterModel.getMobile_no());
         holder.textEmail.setText(visitorDateFilterModel.getEmail_id());

@@ -12,6 +12,24 @@ public class VisitorListAllModel {
     String status;
     String chapter_name;
     String launch_dc;
+    String description;
+    String Follow_up_date_time;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getFollow_up_date_time() {
+        return Follow_up_date_time;
+    }
+
+    public void setFollow_up_date_time(String follow_up_date_time) {
+        Follow_up_date_time = follow_up_date_time;
+    }
 
     public String getVisitor_id() {
         return visitor_id;

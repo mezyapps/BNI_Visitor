@@ -128,12 +128,6 @@ public class VisitorByLaunchDcActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        launchDcList();
-    }
-
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
         HomeFragment.isRefresh=true;

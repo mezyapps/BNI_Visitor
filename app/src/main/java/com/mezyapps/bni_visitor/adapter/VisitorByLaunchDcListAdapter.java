@@ -44,6 +44,7 @@ public class VisitorByLaunchDcListAdapter extends RecyclerView.Adapter<VisitorBy
     public void onBindViewHolder(@NonNull VisitorByLaunchDcListAdapter.MyViewHolder holder, final int position) {
         final  VisitorByLaunchDcModel visitorByLaunchDcModel=visitorByLaunchDcModelArrayList.get(position);
         String status=visitorByLaunchDcModel.getStatus();
+        holder.textFollowUpDateTime.setText(visitorByLaunchDcModel.getFollow_up_date_time());
         holder.textName.setText(visitorByLaunchDcModel.getName());
         holder.textMobileNumber.setText(visitorByLaunchDcModel.getMobile_no());
         holder.textEmail.setText(visitorByLaunchDcModel.getEmail_id());

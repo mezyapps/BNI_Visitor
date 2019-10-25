@@ -44,6 +44,7 @@ public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySource
     public void onBindViewHolder(@NonNull VisitorBySourceAdapter.MyViewHolder holder, final int position) {
         final  VisitorBySourceModel visitorBySourceModel=visitorBySourceModelArrayList.get(position);
         String status=visitorBySourceModel.getStatus();
+        holder.textFollowUpDateTime.setText(visitorBySourceModel.getFollow_up_date_time());
         holder.textName.setText(visitorBySourceModel.getName());
         holder.textMobileNumber.setText(visitorBySourceModel.getMobile_no());
         holder.textEmail.setText(visitorBySourceModel.getEmail_id());

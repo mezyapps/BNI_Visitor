@@ -127,12 +127,6 @@ public class VisitorByChapterActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        chapterList();
-    }
-
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
         HomeFragment.isRefresh=true;

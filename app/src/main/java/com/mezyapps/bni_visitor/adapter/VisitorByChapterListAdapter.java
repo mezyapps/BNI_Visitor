@@ -44,6 +44,7 @@ public class VisitorByChapterListAdapter extends RecyclerView.Adapter<VisitorByC
     public void onBindViewHolder(@NonNull VisitorByChapterListAdapter.MyViewHolder holder, final int position) {
         final  VisitorByChapterModel visitorByChapterModel=visitorByChapterModelArrayList.get(position);
         String status=visitorByChapterModel.getStatus();
+        holder.textFollowUpDateTime.setText(visitorByChapterModel.getFollow_up_date_time());
         holder.textName.setText(visitorByChapterModel.getName());
         holder.textMobileNumber.setText(visitorByChapterModel.getMobile_no());
         holder.textEmail.setText(visitorByChapterModel.getEmail_id());

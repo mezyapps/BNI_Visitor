@@ -190,6 +190,8 @@ public class VisitorByLaunchDcPieActivity extends AppCompatActivity {
                             message = successModule.getMessage();
                             code = successModule.getCode();
                             if (code.equalsIgnoreCase("1")) {
+                                colors.clear();
+                                entries.clear();
                                 not_interested = successModule.getNot_interested();
                                 member = successModule.getMember();
                                 follow_up = successModule.getFollow_up();

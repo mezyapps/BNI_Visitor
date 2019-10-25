@@ -537,9 +537,6 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         } else if (MobileNumber.equalsIgnoreCase("")) {
             Toast.makeText(this, "Enter Mobile Number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (Email.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Email", Toast.LENGTH_SHORT).show();
-            return false;
         } else if (Category.equalsIgnoreCase("")) {
             Toast.makeText(this, "Enter Category", Toast.LENGTH_SHORT).show();
             return false;

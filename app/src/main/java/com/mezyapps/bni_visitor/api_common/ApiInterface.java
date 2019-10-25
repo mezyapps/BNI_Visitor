@@ -115,4 +115,15 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<SuccessModel> visitorHistory(@Field("visitor_id") String visitor_id);
 
+    @POST(EndApi.WS_VISITOR_LAUNCH_DC_COUNT)
+    @FormUrlEncoded
+    Call<SuccessModel> visitorBYLaunchDcCount(@Field("launch_dc_id") String launch_dc_id);
+
+    @POST(EndApi.WS_VISITOR_LAUNCH_DC)
+    @FormUrlEncoded
+    Call<SuccessModel> visitorListLaunchDc(@Field("launch_dc_id") String launch_dc_id,
+                                          @Field("status") String status);
+
+
+
 }

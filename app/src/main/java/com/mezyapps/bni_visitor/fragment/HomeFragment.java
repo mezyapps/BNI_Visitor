@@ -32,6 +32,7 @@ import com.mezyapps.bni_visitor.activity.CommonVisitorActivity;
 import com.mezyapps.bni_visitor.activity.MainActivity;
 import com.mezyapps.bni_visitor.activity.VisitorByChapterActivity;
 import com.mezyapps.bni_visitor.activity.VisitorByDateActivity;
+import com.mezyapps.bni_visitor.activity.VisitorByLaunchDcActivity;
 import com.mezyapps.bni_visitor.activity.VisitorBySourceActivity;
 import com.mezyapps.bni_visitor.activity.VisitorNotInterestedActivity;
 import com.mezyapps.bni_visitor.api_common.ApiClient;
@@ -117,7 +118,7 @@ public class HomeFragment extends Fragment {
         rr_visitor_not_interested.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) mContext).loadFragment(new AddVisitorFragment());
+                startActivity(new Intent(mContext, VisitorByLaunchDcActivity.class));
             }
         });
         rr_visitor_by_chapter.setOnClickListener(new View.OnClickListener() {

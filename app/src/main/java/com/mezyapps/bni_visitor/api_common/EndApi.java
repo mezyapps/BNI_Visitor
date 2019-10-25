@@ -21,4 +21,6 @@ public class EndApi extends BaseApi {
     public static final String WS_SOURCE_PIE_COUNT="ws_source_pie_count.php";
     public static final String WS_EDIT_VISITOR="ws_edit_visitor.php";
     public static final String WS_VISITOR_HISTORY="ws_visitor_history.php";
+    public static final String WS_VISITOR_LAUNCH_DC_COUNT="ws_visitor_by_launch_dc_count.php";
+    public static final String WS_VISITOR_LAUNCH_DC="ws_visitor_list_launch_dc.php";
 }

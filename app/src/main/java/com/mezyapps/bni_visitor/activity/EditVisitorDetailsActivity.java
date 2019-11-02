@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +40,7 @@ import com.mezyapps.bni_visitor.model.ChapterListModel;
 import com.mezyapps.bni_visitor.model.LunchDcModel;
 import com.mezyapps.bni_visitor.model.SuccessModel;
 import com.mezyapps.bni_visitor.model.VisitorListStatusModel;
+import com.mezyapps.bni_visitor.utils.Alarm;
 import com.mezyapps.bni_visitor.utils.NetworkUtils;
 import com.mezyapps.bni_visitor.utils.ShowProgressDialog;
 
@@ -59,10 +64,10 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     public static ApiInterface apiInterface;
     private ImageView iv_back;
     private Button btn_save;
-    private LinearLayout  ll_follow_up_date_time;
-    private String followUpDateTimeShow, followDate="", followTime="", status = "0",time="";
+    private LinearLayout ll_follow_up_date_time;
+    private String followUpDateTimeShow, followDate = "", followTime = "", status = "0", time = "";
     private RadioGroup radioGroupStatus;
-    private Spinner  SpinnerLaunchDc;
+    private Spinner SpinnerLaunchDc;
     private RadioButton rbFollow_UP, rbMember, rbNot_Interested;
 
 
@@ -73,6 +78,9 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     private Boolean isLaunchDcSelect = false;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
+    int mYear, mMonth, mDay, mHour, mMinute;
+    int mYearS, mMonthS, mDayS, mHourS, mMinuteS;
+    public static int request_code=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +131,10 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
 
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle!=null) {
-            visitor_id =bundle.getString("VISITOR_ID");
+        if (bundle != null) {
+            visitor_id = bundle.getString("VISITOR_ID");
             status = bundle.getString("VISITOR_STATUS");
-            LaunchDc =bundle.getString("VISITOR_LAUNCH_DC") ;
+            LaunchDc = bundle.getString("VISITOR_LAUNCH_DC");
         }
 
         if (status.equalsIgnoreCase("0")) {
@@ -170,7 +178,6 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         });
 
 
-
         SpinnerLaunchDc.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -186,7 +193,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                     LaunchDc = parent.getItemAtPosition(position).toString();
                     isLaunchDcSelect = false;
                 } else {
-                   // Toast.makeText(EditVisitorDetailsActivity.this, LaunchDc, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(EditVisitorDetailsActivity.this, LaunchDc, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -225,12 +232,12 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
 
     private void datePicker() {
         Calendar calendar = Calendar.getInstance();
-        int mYear = calendar.get(Calendar.YEAR);
-        int mMonth = calendar.get(Calendar.MONTH);
-        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        datePickerDialog= new DatePickerDialog(EditVisitorDetailsActivity.this,
+        datePickerDialog = new DatePickerDialog(EditVisitorDetailsActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -239,11 +246,13 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(year, monthOfYear, dayOfMonth);
 
-
+                        mYearS = year;
+                        mMonthS = monthOfYear;
+                        mDayS = dayOfMonth;
 
                         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                         String dateString = format.format(calendar.getTime());
-                        followDate=dateString;
+                        followDate = dateString;
                         timePicker();
                     }
 
@@ -254,40 +263,37 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     private void timePicker() {
         // Get Current Time
         final Calendar c = Calendar.getInstance();
-       int  mHour = c.get(Calendar.HOUR_OF_DAY);
-       int  mMinute = c.get(Calendar.MINUTE);
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
 
                     @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,int minute) {
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                        String hour= String.valueOf(hourOfDay);
-                        String minutes= String.valueOf(minute);
-                        String minutes1="",hour1 ="";
-                        if(hour.length()==1)
-                        {
-                            hour1="0"+hour;
+                        mHourS = hourOfDay;
+                        mMinuteS = minute;
+
+                        String hour = String.valueOf(hourOfDay);
+                        String minutes = String.valueOf(minute);
+                        String minutes1 = "", hour1 = "";
+                        if (hour.length() == 1) {
+                            hour1 = "0" + hour;
+                        } else {
+                            hour1 = hour;
                         }
-                        else
-                        {
-                            hour1=hour;
-                        }
-                        if (minutes.length()==1)
-                        {
-                            minutes1="0"+minutes;
-                        }
-                        else
-                        {
-                            minutes1=minutes;
+                        if (minutes.length() == 1) {
+                            minutes1 = "0" + minutes;
+                        } else {
+                            minutes1 = minutes;
                         }
 
-                        followTime= hour1+":"+minutes1;
-                        textFollowUpDateTime.setText(followDate+" "+followTime);
+                        followTime = hour1 + ":" + minutes1;
+                        textFollowUpDateTime.setText(followDate + " " + followTime);
                     }
-                }, mHour, mMinute, true);
+                }, mHour, mMinute, false);
         timePickerDialog.show();
     }
 
@@ -310,8 +316,9 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                             code = successModule.getCode();
                             if (code.equalsIgnoreCase("1")) {
                                 Toast.makeText(EditVisitorDetailsActivity.this, "Visitor Edit Successfully", Toast.LENGTH_SHORT).show();
+                                setAlarms();
                                 onBackPressed();
-                            }  else {
+                            } else {
                                 Toast.makeText(EditVisitorDetailsActivity.this, "Visitor Not Edit", Toast.LENGTH_SHORT).show();
                             }
 
@@ -334,19 +341,39 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void setAlarms() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, mYearS);
+        cal.set(Calendar.MONTH, mMonthS);
+        cal.set(Calendar.DAY_OF_MONTH, mDayS);
+        cal.set(Calendar.HOUR_OF_DAY, mHourS);
+        cal.set(Calendar.MINUTE, mMinuteS);
+        cal.set(Calendar.SECOND, 0);
+
+        Calendar cal1 = Calendar.getInstance();
+        cal1.set(mYearS, mMonthS, mDayS, mHourS, mMinuteS, 00);
+
+
+        Intent activate = new Intent(this, Alarm.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, request_code, activate, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, cal1.getTimeInMillis(), alarmIntent);
+
+
+       // Toast.makeText(this, "Alarm is set", Toast.LENGTH_SHORT).show();
+        request_code++;
+    }
+
     private boolean validation() {
 
         FollowUpDateTime = textFollowUpDateTime.getText().toString().trim();
         Description = textDescription.getText().toString().trim();
 
-     if (status.equalsIgnoreCase("")) {
+        if (status.equalsIgnoreCase("")) {
             Toast.makeText(this, "Select Status", Toast.LENGTH_SHORT).show();
             return false;
         } else if (LaunchDc.equalsIgnoreCase("")) {
             Toast.makeText(this, "Select Launch Dc", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (Description.equalsIgnoreCase("")) {
-            Toast.makeText(this, "Enter Description", Toast.LENGTH_SHORT).show();
             return false;
         }
 

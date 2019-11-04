@@ -74,7 +74,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     //Chapter Launch Dc
     private ArrayList<LunchDcModel> lunchDcModelArrayList = new ArrayList<>();
     private ArrayList<String> launchDcStringArrayList = new ArrayList<>();
-    String visitor_id;
+    String visitor_id,followDateSend;
     private Boolean isLaunchDcSelect = false;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
@@ -106,6 +106,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         rbNot_Interested = findViewById(R.id.rbNot_Interested);
 
         String dateStrSend = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        followDateSend = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String currentDateandTime = sdf.format(new Date());
 
@@ -135,6 +136,8 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
             visitor_id = bundle.getString("VISITOR_ID");
             status = bundle.getString("VISITOR_STATUS");
             LaunchDc = bundle.getString("VISITOR_LAUNCH_DC");
+            followUpDateTimeShow = bundle.getString("VISITOR_FOLLOW_DATE");
+            textFollowUpDateTime.setText(followUpDateTimeShow);
         }
 
         if (status.equalsIgnoreCase("0")) {
@@ -253,6 +256,11 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                         String dateString = format.format(calendar.getTime());
                         followDate = dateString;
+
+                        SimpleDateFormat formatSend = new SimpleDateFormat("yyyy-MM-dd");
+                        String dateStringSend = formatSend.format(calendar.getTime());
+                        followDateSend = dateStringSend;
+
                         timePicker();
                     }
 
@@ -299,7 +307,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
 
     private void callAddVisitor() {
         showProgressDialog.showDialog();
-        Call<SuccessModel> call = apiInterface.editVisitor(visitor_id, status, FollowUpDateTime, LaunchDc, Description);
+        Call<SuccessModel> call = apiInterface.editVisitor(visitor_id, status, FollowUpDateTime, LaunchDc, Description,followDateSend);
         call.enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {

@@ -61,6 +61,7 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
                 intent.putExtra("VISITOR_ID",  visitorListStatusModelArrayList.get(position).getVisitor_id());
                 intent.putExtra("VISITOR_STATUS",  visitorListStatusModelArrayList.get(position).getStatus());
                 intent.putExtra("VISITOR_LAUNCH_DC",  visitorListStatusModelArrayList.get(position).getLaunch_dc());
+                intent.putExtra("VISITOR_FOLLOW_DATE",  visitorListStatusModelArrayList.get(position).getFollow_up_date_time());
                 mContext.startActivity(intent);
             }
         });

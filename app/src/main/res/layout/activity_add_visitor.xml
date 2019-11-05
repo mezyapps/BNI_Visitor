@@ -114,7 +114,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/shape_edit_background"
                     android:inputType="phone"
-                    android:maxLength="20"
+                    android:maxLength="10"
                     android:padding="10dp"
                     android:textAllCaps="true" />
 
@@ -478,6 +478,7 @@
                     android:background="@drawable/shape_edit_background"
                     android:inputType="text"
                     android:padding="10dp"
+                    android:maxLength="150"
                     android:textAllCaps="true" />
 
             </LinearLayout>

@@ -31,6 +31,17 @@
             android:textStyle="bold" />
 
 
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:id="@+id/iv_search"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/iv_custom_calender"
+            android:src="@drawable/ic_vector_search"/>
+
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -40,6 +51,35 @@
             android:src="@drawable/ic_vector_calendar"/>
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/app_color"
+        android:visibility="gone"
+        android:id="@+id/rr_toolbar_search">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_vector_back"
+            android:padding="5dp"
+            android:id="@+id/iv_back_search"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/search_name_and_category"
+            android:backgroundTint="@color/app_color"
+            android:id="@+id/edit_search"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:layout_toEndOf="@id/iv_back_search"/>
+
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

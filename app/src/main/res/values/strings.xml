@@ -20,5 +20,6 @@
     <string name="this_month">This Month</string>
     <string name="last_month">Last Month</string>
     <string name="custom">Custom</string>
+    <string name="search_name_and_category">Search(Name And Category)</string>
 
 </resources>

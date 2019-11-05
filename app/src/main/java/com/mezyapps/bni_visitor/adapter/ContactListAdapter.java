@@ -44,16 +44,25 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-               final ContactListModel contactListModel = contactListModelArrayList.get(position);
-               holder.textName.setText(contactListModel.getName());
-               holder.textMobileNumber.setText(contactListModel.getContact());
+        final ContactListModel contactListModel = contactListModelArrayList.get(position);
+        holder.textName.setText(contactListModel.getName());
+        String mobile_number =contactListModel.getContact().toString().replaceAll("\\s","").toLowerCase().trim();
+        String lastTenDigits = "";
 
-               holder.card_view_list.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       contactListInterface.selectContact(contactListModel.getName(), contactListModel.getContact());
-                   }
-               });
+        if (mobile_number.length() > 10) {
+            lastTenDigits = mobile_number.substring(mobile_number.length() - 10);
+        } else {
+            lastTenDigits = mobile_number;
+        }
+        holder.textMobileNumber.setText(lastTenDigits);
+
+        final String finalLastTenDigits = lastTenDigits;
+        holder.card_view_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contactListInterface.selectContact(contactListModel.getName(), finalLastTenDigits);
+            }
+        });
 
 
     }
@@ -87,9 +96,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                     try {
                         ArrayList<ContactListModel> filteredList = new ArrayList<>();
                         for (int i = 0; i < contactListModelArrayList.size(); i++) {
-                            String name=contactListModelArrayList.get(i).getName().replaceAll("\\s","").toLowerCase().trim();
-                            String  contact=contactListModelArrayList.get(i).getContact().toLowerCase().replaceAll("\\s","").toLowerCase().trim();
-                            if ((name.contains(charString))||(contact.contains(charString))) {
+                            String name = contactListModelArrayList.get(i).getName().replaceAll("\\s", "").toLowerCase().trim();
+                            String contact = contactListModelArrayList.get(i).getContact().toLowerCase().replaceAll("\\s", "").toLowerCase().trim();
+                            if ((name.contains(charString)) || (contact.contains(charString))) {
                                 filteredList.add(contactListModelArrayList.get(i));
                             }
                         }

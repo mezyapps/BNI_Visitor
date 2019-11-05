@@ -8,12 +8,16 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +49,9 @@ import retrofit2.Response;
 
 public class VisitorByDateActivity extends AppCompatActivity {
 
-    private ImageView iv_back,iv_custom_calender;
+    private ImageView iv_back,iv_custom_calender,iv_search,iv_back_search;
     private LinearLayout linear_layout_custom_day,linear_layout_today_date;
-    private String currentDate;
+    private String currentDate,currentDateSend;
     private boolean isStartDate;
     private TextView textDateStart, textDateEnd,textDateStartCustom, textDateEndCustom,text_today_date;
     private ShowProgressDialog showProgressDialog;
@@ -57,6 +61,9 @@ public class VisitorByDateActivity extends AppCompatActivity {
     private ArrayList<VisitorDateFilterModel> visitorDateFilterModelArrayList=new ArrayList<>();
     private VisitorDateFilterAdapter visitorDateFilterAdapter;
     private RecyclerView recycler_view_all_visitor;
+    private RelativeLayout rr_toolbar,rr_toolbar_search;
+    private EditText edit_search;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +85,25 @@ public class VisitorByDateActivity extends AppCompatActivity {
         textDateStart=findViewById(R.id.textDateStart);
         textDateEnd=findViewById(R.id.textDateEnd);
         text_today_date=findViewById(R.id.text_today_date);
+        iv_search=findViewById(R.id.iv_search);
         recycler_view_all_visitor=findViewById(R.id.recycler_view_all_visitor);
+        rr_toolbar = findViewById(R.id.rr_toolbar);
+        rr_toolbar_search = findViewById(R.id.rr_toolbar_search);
+        iv_back_search = findViewById(R.id.iv_back_search);
+        edit_search = findViewById(R.id.edit_search);
+
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(VisitorByDateActivity.this);
         recycler_view_all_visitor.setLayoutManager(linearLayoutManager);
 
 
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        currentDateSend = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         textDateEnd.setText(currentDate);
         textDateStart.setText(currentDate);
 
         if (NetworkUtils.isNetworkAvailable(VisitorByDateActivity.this)) {
-            callAllVisitorList();
+            callSingleDateFilter(currentDateSend);
         }
         else {
             NetworkUtils.isNetworkNotAvailable(VisitorByDateActivity.this);
@@ -111,10 +125,52 @@ public class VisitorByDateActivity extends AppCompatActivity {
                 customDateDialog();
             }
         });
+
+        iv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        iv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar.setVisibility(View.GONE);
+                rr_toolbar_search.setVisibility(View.VISIBLE);
+            }
+        });
+
+        iv_back_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar_search.setVisibility(View.GONE);
+                rr_toolbar.setVisibility(View.VISIBLE);
+                edit_search.setText("");
+            }
+        });
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                visitorDateFilterAdapter.getFilter().filter(edit_search.getText().toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
 
-    private void callAllVisitorList() {
+    /*private void callAllVisitorList() {
         showProgressDialog.showDialog();
         Call<SuccessModel> call = apiInterface.visitorAllList();
         call.enqueue(new Callback<SuccessModel>() {
@@ -167,7 +223,7 @@ public class VisitorByDateActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     private void callSingleDateFilter(String date) {
         showProgressDialog.showDialog();
@@ -538,7 +594,7 @@ public class VisitorByDateActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        callAllVisitorList();
+        callSingleDateFilter(currentDateSend);
     }
 
     @Override

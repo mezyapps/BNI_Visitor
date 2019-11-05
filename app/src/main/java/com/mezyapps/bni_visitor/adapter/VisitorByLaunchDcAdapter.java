@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class VisitorByLaunchDcAdapter extends RecyclerView.Adapter<VisitorByLaun
 
     @Override
     public void onBindViewHolder(@NonNull VisitorByLaunchDcAdapter.MyViewHolder holder, final int position) {
+        holder.iv_edit.setVisibility(View.GONE);
         final  LunchDcModel lunchDcModel=lunchDcModelArrayList.get(position);
         holder.textLunchDc.setText(lunchDcModel.getLaunch_dc_name());
         holder.card_layout_LunchDc.setOnClickListener(new View.OnClickListener() {
@@ -58,11 +60,13 @@ public class VisitorByLaunchDcAdapter extends RecyclerView.Adapter<VisitorByLaun
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private CardView card_layout_LunchDc;
         private TextView textLunchDc;
+        private ImageView iv_edit;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textLunchDc=itemView.findViewById(R.id.textLunchDc);
             card_layout_LunchDc=itemView.findViewById(R.id.card_layout_LunchDc);
+            iv_edit=itemView.findViewById(R.id.iv_edit);
         }
     }
 }

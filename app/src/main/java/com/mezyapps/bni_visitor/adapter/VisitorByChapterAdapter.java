@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class VisitorByChapterAdapter extends RecyclerView.Adapter<VisitorByChapt
 
     @Override
     public void onBindViewHolder(@NonNull VisitorByChapterAdapter.MyViewHolder holder, final int position) {
+        holder.iv_edit.setVisibility(View.GONE);
         final  ChapterListModel chapterListModel=chapterListModelArrayList.get(position);
         holder.textChapter.setText(chapterListModel.getChapter_name());
 
@@ -64,11 +66,12 @@ public class VisitorByChapterAdapter extends RecyclerView.Adapter<VisitorByChapt
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private CardView card_layout_chapter;
         private TextView textChapter;
-
+        private ImageView iv_edit;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textChapter=itemView.findViewById(R.id.textChapter);
             card_layout_chapter=itemView.findViewById(R.id.card_layout_chapter);
+            iv_edit=itemView.findViewById(R.id.iv_edit);
         }
     }
 }

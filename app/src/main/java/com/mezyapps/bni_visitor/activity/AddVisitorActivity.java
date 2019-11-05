@@ -537,6 +537,9 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         } else if (MobileNumber.equalsIgnoreCase("")) {
             Toast.makeText(this, "Enter Mobile Number", Toast.LENGTH_SHORT).show();
             return false;
+        }else if (MobileNumber.length()<10) {
+            Toast.makeText(this, "Enter  Valid Mobile Number", Toast.LENGTH_SHORT).show();
+            return false;
         } else if (Category.equalsIgnoreCase("")) {
             Toast.makeText(this, "Enter Category", Toast.LENGTH_SHORT).show();
             return false;
@@ -623,6 +626,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
                             code = successModule.getCode();
                             if (code.equalsIgnoreCase("1")) {
                                 chapterListModelArrayList = successModule.getChapterListModelArrayList();
+                                chapterStringArrayList.clear();
                                 for (ChapterListModel chapterListModel : chapterListModelArrayList) {
                                     chapterStringArrayList.add(chapterListModel.getChapter_name());
                                 }
@@ -666,6 +670,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
                             if (code.equalsIgnoreCase("1")) {
 
                                 lunchDcModelArrayList = successModule.getLunchDcModelArrayList();
+                                launchDcStringArrayList.clear();
                                 for (LunchDcModel lunchDcModel : lunchDcModelArrayList) {
                                     launchDcStringArrayList.add(lunchDcModel.getLaunch_dc_name());
                                 }
@@ -701,6 +706,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         contactDialog.dismiss();
         textName.setText(name);
         textMobileNumber.setText(number);
-
+        textEmail.setSelection(0);
+        textEmail.requestFocus();
     }
 }

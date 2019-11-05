@@ -51,6 +51,7 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
         holder.textLaunch_dc.setText(visitorListAllModel.getLaunch_dc());
         holder.textSource.setText(visitorListAllModel.getSource());
         holder.textCategory.setText(visitorListAllModel.getCategory());
+        holder.textDescription.setText(visitorListAllModel.getDescription());
         final String mobile_number=visitorListAllModel.getMobile_no();
 
         holder.iv_call.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +94,7 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
+        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory,textDescription;
         private LinearLayout llFollowUpDateTime;
         private CardView card_view_list;
         private ImageView iv_call,iv_edit;
@@ -113,6 +114,7 @@ public class AllVisitorListAdapter  extends RecyclerView.Adapter<AllVisitorListA
             iv_call=itemView.findViewById(R.id.iv_call);
             textHistory=itemView.findViewById(R.id.textHistory);
             iv_edit=itemView.findViewById(R.id.iv_edit);
+            textDescription=itemView.findViewById(R.id.textDescription);
         }
     }
 }

@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,17 +20,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mezyapps.bni_visitor.R;
 import com.mezyapps.bni_visitor.activity.EditVisitorDetailsActivity;
 import com.mezyapps.bni_visitor.activity.HistoryActivity;
+import com.mezyapps.bni_visitor.model.VisitorDateFilterModel;
 import com.mezyapps.bni_visitor.model.VisitorListStatusModel;
 
 import java.util.ArrayList;
 
-public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCommonAdapter.MyViewHolder> {
+public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCommonAdapter.MyViewHolder> implements Filterable {
     private Context mContext;
     private ArrayList<VisitorListStatusModel> visitorListStatusModelArrayList;
+    private  ArrayList<VisitorListStatusModel> arrayListFiltered;
 
     public VisitorListCommonAdapter(Context mContext, ArrayList<VisitorListStatusModel> visitorListStatusModelArrayList) {
         this.mContext = mContext;
         this.visitorListStatusModelArrayList = visitorListStatusModelArrayList;
+        this.arrayListFiltered = visitorListStatusModelArrayList;
     }
 
     @NonNull
@@ -51,6 +56,7 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
         holder.textLaunch_dc.setText(visitorListStatusModel.getLaunch_dc());
         holder.textSource.setText(visitorListStatusModel.getSource());
         holder.textCategory.setText(visitorListStatusModel.getCategory());
+        holder.textDescription.setText(visitorListStatusModel.getDescription());
 
 
         holder.iv_edit.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +100,7 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName, textMobileNumber, textEmail, textChapterName, textLaunch_dc, textSource, textFollowUpDateTime, textCategory, textHistory;
+        private TextView textName, textMobileNumber, textEmail, textChapterName, textLaunch_dc, textSource, textFollowUpDateTime, textCategory, textHistory,textDescription;
         private LinearLayout llFollowUpDateTime, ll_history;
         private CardView card_view_list;
         private ImageView iv_call,iv_edit;
@@ -116,6 +122,43 @@ public class VisitorListCommonAdapter extends RecyclerView.Adapter<VisitorListCo
             iv_edit = itemView.findViewById(R.id.iv_edit);
             ll_history = itemView.findViewById(R.id.ll_history);
             textHistory = itemView.findViewById(R.id.textHistory);
+            textDescription = itemView.findViewById(R.id.textDescription);
         }
+    }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString().replaceAll("\\s","").toLowerCase().trim();
+                if (charString.isEmpty() || charSequence.equals("")) {
+                    visitorListStatusModelArrayList = arrayListFiltered;
+                } else {
+                    ArrayList<VisitorListStatusModel> filteredList = new ArrayList<>();
+                    for (int i = 0; i < visitorListStatusModelArrayList.size(); i++) {
+                        String name=visitorListStatusModelArrayList.get(i).getName().replaceAll("\\s","").toLowerCase().trim();
+                        String  category=visitorListStatusModelArrayList.get(i).getCategory().toLowerCase().replaceAll("\\s","").toLowerCase().trim();
+                        if ((name.contains(charString))||(category.contains(charString))) {
+                            filteredList.add(visitorListStatusModelArrayList.get(i));
+                        }
+                    }
+                    if (filteredList.size() > 0) {
+                        visitorListStatusModelArrayList = filteredList;
+                    } else {
+                        visitorListStatusModelArrayList = arrayListFiltered;
+                    }
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = visitorListStatusModelArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                visitorListStatusModelArrayList = (ArrayList<VisitorListStatusModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

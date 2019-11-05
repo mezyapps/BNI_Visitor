@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,19 +20,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mezyapps.bni_visitor.R;
 import com.mezyapps.bni_visitor.activity.EditVisitorDetailsActivity;
 import com.mezyapps.bni_visitor.activity.HistoryActivity;
+import com.mezyapps.bni_visitor.model.VisitorByLaunchDcModel;
 import com.mezyapps.bni_visitor.model.VisitorBySourceModel;
 import com.mezyapps.bni_visitor.model.VisitorListStatusModel;
 
 import java.util.ArrayList;
 
-public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySourceAdapter.MyViewHolder> {
+public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySourceAdapter.MyViewHolder> implements Filterable {
 
     private Context mContext;
     private ArrayList<VisitorBySourceModel> visitorBySourceModelArrayList;
+    private  ArrayList<VisitorBySourceModel> arrayListFiltered;
 
     public VisitorBySourceAdapter(Context mContext,ArrayList<VisitorBySourceModel> visitorBySourceModelArrayList) {
         this.mContext = mContext;
         this.visitorBySourceModelArrayList = visitorBySourceModelArrayList;
+        this.arrayListFiltered = visitorBySourceModelArrayList;
     }
 
     @NonNull
@@ -52,6 +57,7 @@ public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySource
         holder.textLaunch_dc.setText(visitorBySourceModel.getLaunch_dc());
         holder.textSource.setText(visitorBySourceModel.getSource());
         holder.textCategory.setText(visitorBySourceModel.getCategory());
+        holder.textDescription.setText(visitorBySourceModel.getDescription());
 
         final String mobile_number=visitorBySourceModel.getMobile_no();
 
@@ -93,7 +99,7 @@ public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySource
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
+        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory,textDescription;
         private LinearLayout llFollowUpDateTime;
         private CardView card_view_list;
         private ImageView iv_call,iv_edit;
@@ -113,7 +119,44 @@ public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySource
             iv_call=itemView.findViewById(R.id.iv_call);
             iv_edit=itemView.findViewById(R.id.iv_edit);
             textHistory=itemView.findViewById(R.id.textHistory);
+            textDescription=itemView.findViewById(R.id.textDescription);
         }
+    }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString().replaceAll("\\s","").toLowerCase().trim();
+                if (charString.isEmpty() || charSequence.equals("")) {
+                    visitorBySourceModelArrayList = arrayListFiltered;
+                } else {
+                    ArrayList<VisitorBySourceModel> filteredList = new ArrayList<>();
+                    for (int i = 0; i < visitorBySourceModelArrayList.size(); i++) {
+                        String name=visitorBySourceModelArrayList.get(i).getName().replaceAll("\\s","").toLowerCase().trim();
+                        String  category=visitorBySourceModelArrayList.get(i).getCategory().toLowerCase().replaceAll("\\s","").toLowerCase().trim();
+                        if ((name.contains(charString))||(category.contains(charString))) {
+                            filteredList.add(visitorBySourceModelArrayList.get(i));
+                        }
+                    }
+                    if (filteredList.size() > 0) {
+                        visitorBySourceModelArrayList = filteredList;
+                    } else {
+                        visitorBySourceModelArrayList = arrayListFiltered;
+                    }
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = visitorBySourceModelArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                visitorBySourceModelArrayList = (ArrayList<VisitorBySourceModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
 

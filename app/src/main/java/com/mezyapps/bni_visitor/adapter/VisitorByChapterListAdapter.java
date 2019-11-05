@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,17 +22,20 @@ import com.mezyapps.bni_visitor.activity.EditVisitorDetailsActivity;
 import com.mezyapps.bni_visitor.activity.HistoryActivity;
 import com.mezyapps.bni_visitor.model.VisitorByChapterModel;
 import com.mezyapps.bni_visitor.model.VisitorBySourceModel;
+import com.mezyapps.bni_visitor.model.VisitorListStatusModel;
 
 import java.util.ArrayList;
 
-public class VisitorByChapterListAdapter extends RecyclerView.Adapter<VisitorByChapterListAdapter.MyViewHolder> {
+public class VisitorByChapterListAdapter extends RecyclerView.Adapter<VisitorByChapterListAdapter.MyViewHolder> implements Filterable {
 
     private Context mContext;
     private ArrayList<VisitorByChapterModel> visitorByChapterModelArrayList;
+    private  ArrayList<VisitorByChapterModel> arrayListFiltered;
 
     public VisitorByChapterListAdapter(Context mContext, ArrayList<VisitorByChapterModel> visitorByChapterModelArrayList) {
         this.mContext = mContext;
         this.visitorByChapterModelArrayList = visitorByChapterModelArrayList;
+        this.arrayListFiltered = visitorByChapterModelArrayList;
     }
 
     @NonNull
@@ -52,7 +57,7 @@ public class VisitorByChapterListAdapter extends RecyclerView.Adapter<VisitorByC
         holder.textLaunch_dc.setText(visitorByChapterModel.getLaunch_dc());
         holder.textSource.setText(visitorByChapterModel.getSource());
         holder.textCategory.setText(visitorByChapterModel.getCategory());
-
+        holder.textDescription.setText(visitorByChapterModel.getDescription());
         final String mobile_number=visitorByChapterModel.getMobile_no();
 
         holder.iv_call.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +98,7 @@ public class VisitorByChapterListAdapter extends RecyclerView.Adapter<VisitorByC
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
+        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory,textDescription;
         private LinearLayout llFollowUpDateTime;
         private CardView card_view_list;
         private ImageView iv_call,iv_edit;
@@ -113,7 +118,44 @@ public class VisitorByChapterListAdapter extends RecyclerView.Adapter<VisitorByC
             iv_call=itemView.findViewById(R.id.iv_call);
             iv_edit=itemView.findViewById(R.id.iv_edit);
             textHistory=itemView.findViewById(R.id.textHistory);
+            textDescription=itemView.findViewById(R.id.textDescription);
         }
+    }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString().replaceAll("\\s","").toLowerCase().trim();
+                if (charString.isEmpty() || charSequence.equals("")) {
+                    visitorByChapterModelArrayList = arrayListFiltered;
+                } else {
+                    ArrayList<VisitorByChapterModel> filteredList = new ArrayList<>();
+                    for (int i = 0; i < visitorByChapterModelArrayList.size(); i++) {
+                        String name=visitorByChapterModelArrayList.get(i).getName().replaceAll("\\s","").toLowerCase().trim();
+                        String  category=visitorByChapterModelArrayList.get(i).getCategory().toLowerCase().replaceAll("\\s","").toLowerCase().trim();
+                        if ((name.contains(charString))||(category.contains(charString))) {
+                            filteredList.add(visitorByChapterModelArrayList.get(i));
+                        }
+                    }
+                    if (filteredList.size() > 0) {
+                        visitorByChapterModelArrayList = filteredList;
+                    } else {
+                        visitorByChapterModelArrayList = arrayListFiltered;
+                    }
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = visitorByChapterModelArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                visitorByChapterModelArrayList = (ArrayList<VisitorByChapterModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
 

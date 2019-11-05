@@ -5,9 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -31,13 +35,15 @@ import retrofit2.Response;
 
 public class VisitorByLaunchDcDisplayActivity extends AppCompatActivity {
 
-    private ImageView iv_back;
+    private ImageView iv_back,iv_back_search,iv_search;
     private String launch_dc_id, status;
     private ShowProgressDialog showProgressDialog;
     public static ApiInterface apiInterface;
     private ArrayList<VisitorByLaunchDcModel> visitorByLaunchDcModelArrayList = new ArrayList<>();
     private VisitorByLaunchDcListAdapter visitorByLaunchDcListAdapter;
     private RecyclerView recycler_view_visitor_launch_dc;
+    private RelativeLayout rr_toolbar,rr_toolbar_search;
+    private EditText edit_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,11 @@ public class VisitorByLaunchDcDisplayActivity extends AppCompatActivity {
         showProgressDialog = new ShowProgressDialog(VisitorByLaunchDcDisplayActivity.this);
         iv_back = findViewById(R.id.iv_back);
         recycler_view_visitor_launch_dc = findViewById(R.id.recycler_view_visitor_launch_dc);
+        rr_toolbar = findViewById(R.id.rr_toolbar);
+        rr_toolbar_search = findViewById(R.id.rr_toolbar_search);
+        iv_back_search = findViewById(R.id.iv_back_search);
+        edit_search = findViewById(R.id.edit_search);
+        iv_search = findViewById(R.id.iv_search);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VisitorByLaunchDcDisplayActivity.this);
         recycler_view_visitor_launch_dc.setLayoutManager(linearLayoutManager);
@@ -74,6 +85,39 @@ public class VisitorByLaunchDcDisplayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        iv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar.setVisibility(View.GONE);
+                rr_toolbar_search.setVisibility(View.VISIBLE);
+            }
+        });
+
+        iv_back_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar_search.setVisibility(View.GONE);
+                rr_toolbar.setVisibility(View.VISIBLE);
+                edit_search.setText("");
+            }
+        });
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                visitorByLaunchDcListAdapter.getFilter().filter(edit_search.getText().toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

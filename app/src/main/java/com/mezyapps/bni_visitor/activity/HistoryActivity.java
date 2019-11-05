@@ -5,9 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -32,11 +36,13 @@ public class HistoryActivity extends AppCompatActivity {
 
     private RecyclerView recycler_view_all_history;
     public static ApiInterface apiInterface;
-    private ImageView iv_back;
+    private ImageView iv_back,iv_back_search,iv_search;
     private String visitor_id;
     private ShowProgressDialog showProgressDialog;
     private ArrayList<VisitorHistoryModel> visitorHistoryModelArrayList=new ArrayList<>();
     private VisitorHistoryAdapter visitorHistoryAdapter;
+    private RelativeLayout rr_toolbar,rr_toolbar_search;
+    private EditText edit_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,11 @@ public class HistoryActivity extends AppCompatActivity {
         recycler_view_all_history=findViewById(R.id.recycler_view_all_history);
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         iv_back = findViewById(R.id.iv_back);
+        rr_toolbar = findViewById(R.id.rr_toolbar);
+        rr_toolbar_search = findViewById(R.id.rr_toolbar_search);
+        iv_back_search = findViewById(R.id.iv_back_search);
+        edit_search = findViewById(R.id.edit_search);
+        iv_search = findViewById(R.id.iv_search);
         showProgressDialog=new ShowProgressDialog(HistoryActivity.this);
 
         Bundle bundle = getIntent().getExtras();
@@ -75,6 +86,39 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        iv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar.setVisibility(View.GONE);
+                rr_toolbar_search.setVisibility(View.VISIBLE);
+            }
+        });
+
+        iv_back_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar_search.setVisibility(View.GONE);
+                rr_toolbar.setVisibility(View.VISIBLE);
+                edit_search.setText("");
+            }
+        });
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                visitorHistoryAdapter.getFilter().filter(edit_search.getText().toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

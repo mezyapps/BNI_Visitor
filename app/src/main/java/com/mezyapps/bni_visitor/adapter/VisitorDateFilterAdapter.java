@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,14 +25,16 @@ import com.mezyapps.bni_visitor.model.VisitorDateFilterModel;
 
 import java.util.ArrayList;
 
-public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFilterAdapter.MyViewHolder> {
+public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFilterAdapter.MyViewHolder> implements Filterable {
 
     private Context mContext;
     private ArrayList<VisitorDateFilterModel> visitorDateFilterModelArrayList;
+    private  ArrayList<VisitorDateFilterModel> arrayListFiltered;
 
     public VisitorDateFilterAdapter(Context mContext,  ArrayList<VisitorDateFilterModel> visitorDateFilterModelArrayList) {
         this.mContext = mContext;
         this.visitorDateFilterModelArrayList = visitorDateFilterModelArrayList;
+        this.arrayListFiltered = visitorDateFilterModelArrayList;
     }
 
     @NonNull
@@ -52,6 +56,7 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
         holder.textLaunch_dc.setText(visitorDateFilterModel.getLaunch_dc());
         holder.textSource.setText(visitorDateFilterModel.getSource());
         holder.textCategory.setText(visitorDateFilterModel.getCategory());
+        holder.textDescription.setText(visitorDateFilterModel.getDescription());
 
         final String mobile_number=visitorDateFilterModel.getMobile_no();
 
@@ -94,7 +99,7 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory;
+        private TextView textName,textMobileNumber,textEmail,textChapterName,textLaunch_dc,textSource,textFollowUpDateTime,textCategory,textHistory,textDescription;
         private LinearLayout llFollowUpDateTime;
         private CardView card_view_list;
         private ImageView iv_call,iv_edit;
@@ -114,7 +119,44 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
             iv_call=itemView.findViewById(R.id.iv_call);
             iv_edit=itemView.findViewById(R.id.iv_edit);
             textHistory=itemView.findViewById(R.id.textHistory);
+            textDescription=itemView.findViewById(R.id.textDescription);
         }
+    }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString().replaceAll("\\s","").toLowerCase().trim();
+                if (charString.isEmpty() || charSequence.equals("")) {
+                    visitorDateFilterModelArrayList = arrayListFiltered;
+                } else {
+                    ArrayList<VisitorDateFilterModel> filteredList = new ArrayList<>();
+                    for (int i = 0; i < visitorDateFilterModelArrayList.size(); i++) {
+                        String name=visitorDateFilterModelArrayList.get(i).getName().replaceAll("\\s","").toLowerCase().trim();
+                        String  category=visitorDateFilterModelArrayList.get(i).getCategory().toLowerCase().replaceAll("\\s","").toLowerCase().trim();
+                        if ((name.contains(charString))||(category.contains(charString))) {
+                            filteredList.add(visitorDateFilterModelArrayList.get(i));
+                        }
+                    }
+                    if (filteredList.size() > 0) {
+                        visitorDateFilterModelArrayList = filteredList;
+                    } else {
+                        visitorDateFilterModelArrayList = arrayListFiltered;
+                    }
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = visitorDateFilterModelArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                visitorDateFilterModelArrayList = (ArrayList<VisitorDateFilterModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
 

@@ -5,10 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +36,7 @@ import retrofit2.Response;
 
 public class CommonVisitorActivity extends AppCompatActivity {
 
-    private ImageView iv_back;
+    private ImageView iv_back,iv_back_search,iv_search;
     private RecyclerView recycler_view_follow_up;
     private String status;
     private TextView  text_title_name;
@@ -40,6 +44,8 @@ public class CommonVisitorActivity extends AppCompatActivity {
     public static ApiInterface apiInterface;
     private ArrayList<VisitorListStatusModel> visitorListStatusModelArrayList=new ArrayList<>();
     private VisitorListCommonAdapter visitorListCommonAdapter;
+    private RelativeLayout rr_toolbar,rr_toolbar_search;
+    private EditText edit_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,11 @@ public class CommonVisitorActivity extends AppCompatActivity {
         text_title_name = findViewById(R.id.text_title_name);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(CommonVisitorActivity.this);
         recycler_view_follow_up.setLayoutManager(linearLayoutManager);
+        rr_toolbar = findViewById(R.id.rr_toolbar);
+        rr_toolbar_search = findViewById(R.id.rr_toolbar_search);
+        iv_back_search = findViewById(R.id.iv_back_search);
+        edit_search = findViewById(R.id.edit_search);
+        iv_search = findViewById(R.id.iv_search);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null)
@@ -91,6 +102,41 @@ public class CommonVisitorActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        iv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar.setVisibility(View.GONE);
+                rr_toolbar_search.setVisibility(View.VISIBLE);
+            }
+        });
+
+        iv_back_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rr_toolbar_search.setVisibility(View.GONE);
+                rr_toolbar.setVisibility(View.VISIBLE);
+                edit_search.setText("");
+            }
+        });
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                visitorListCommonAdapter.getFilter().filter(edit_search.getText().toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
     private void callVisitorList() {
         showProgressDialog.showDialog();

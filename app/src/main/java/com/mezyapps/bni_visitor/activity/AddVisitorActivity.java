@@ -92,12 +92,14 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
     //Chapter Launch Dc
     private ArrayList<LunchDcModel> lunchDcModelArrayList = new ArrayList<>();
     private ArrayList<String> launchDcStringArrayList = new ArrayList<>();
+
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private SuccessDialog successDialog;
     private ErrorDialog errorDialog;
-    private ArrayList<ContactListModel> contactListModelArrayList = new ArrayList<>();
+
     //Contact Dialog
+    private ArrayList<ContactListModel> contactListModelArrayList = new ArrayList<>();
     private Dialog contactDialog;
     private EditText edt_search;
     private RecyclerView recyclerView_contact;

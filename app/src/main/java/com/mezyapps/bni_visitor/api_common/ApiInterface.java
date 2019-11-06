@@ -55,12 +55,11 @@ public interface ApiInterface {
     @POST(EndApi.WS_EDIT_VISITOR)
     @FormUrlEncoded
     Call<SuccessModel> editVisitor(@Field("visitor_id") String visitor_id,
-                                  @Field("status") String status,
-                                  @Field("follow_up_date") String follow_up_date,
-                                  @Field("launch_dc") String launch_dc,
-                                  @Field("description") String description,
+                                   @Field("status") String status,
+                                   @Field("follow_up_date") String follow_up_date,
+                                   @Field("launch_dc") String launch_dc,
+                                   @Field("description") String description,
                                    @Field("insert_date") String insert_date);
-
 
 
     @POST(EndApi.WS_COUNT_PIE)
@@ -123,8 +122,24 @@ public interface ApiInterface {
     @POST(EndApi.WS_VISITOR_LAUNCH_DC)
     @FormUrlEncoded
     Call<SuccessModel> visitorListLaunchDc(@Field("launch_dc_id") String launch_dc_id,
-                                          @Field("status") String status);
+                                           @Field("status") String status);
 
+    @POST(EndApi.WS_DELETE_VISITOR)
+    @FormUrlEncoded
+    Call<SuccessModel> deleteVisitor(@Field("visitor_id") String visitor_id);
+
+    @POST(EndApi.WS_UPDATE_VISITOR)
+    @FormUrlEncoded
+    Call<SuccessModel> updateVisitor(@Field("visitor_id") String visitor_id,
+                                     @Field("name") String name,
+                                     @Field("mobile") String mobile,
+                                     @Field("email") String email,
+                                     @Field("category") String category,
+                                     @Field("location") String location,
+                                     @Field("chapter") String chapter,
+                                     @Field("source") String source,
+                                     @Field("launch_dc") String launch_dc,
+                                     @Field("description") String description);
 
 
 }

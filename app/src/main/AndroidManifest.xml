@@ -21,8 +21,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.VisitorByLaunchDcDisplayActivity"
+        <activity android:name=".activity.EditVisitorActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.VisitorByLaunchDcDisplayActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.VisitorByLaunchDcPieActivity"
             android:screenOrientation="portrait" />

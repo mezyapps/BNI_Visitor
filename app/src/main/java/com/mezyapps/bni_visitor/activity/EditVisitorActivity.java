@@ -110,16 +110,16 @@ public class EditVisitorActivity extends AppCompatActivity implements ContactLis
         recyclerView_contact.setLayoutManager(linearLayoutManager);
 
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            visitor_id = bundle.getString("VISITOR_ID");
-            visitor_name = bundle.getString("VISITOR_NAME");
-            visitor_mobile = bundle.getString("VISITOR_MOBILE");
-            visitor_email = bundle.getString("VISITOR_EMAIL");
-            visitor_category = bundle.getString("VISITOR_CATEGORY");
-            visitor_location = bundle.getString("VISITOR_LOCATION");
-            visitor_chapter = bundle.getString("VISITOR_CHAPTER");
-            visitor_source = bundle.getString("VISITOR_SOURCE");
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                visitor_id = bundle.getString("VISITOR_ID");
+                visitor_name = bundle.getString("VISITOR_NAME");
+                visitor_mobile = bundle.getString("VISITOR_MOBILE");
+                visitor_email = bundle.getString("VISITOR_EMAIL");
+                visitor_category = bundle.getString("VISITOR_CATEGORY");
+                visitor_location = bundle.getString("VISITOR_LOCATION");
+                visitor_chapter = bundle.getString("VISITOR_CHAPTER");
+                visitor_source = bundle.getString("VISITOR_SOURCE");
             LaunchDc = bundle.getString("VISITOR_LAUNCH_DC");
             visitor_description = bundle.getString("VISITOR_DESCRIPTION");
 

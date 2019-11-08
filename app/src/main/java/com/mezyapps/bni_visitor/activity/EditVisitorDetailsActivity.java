@@ -324,7 +324,9 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                             code = successModule.getCode();
                             if (code.equalsIgnoreCase("1")) {
                                 Toast.makeText(EditVisitorDetailsActivity.this, "Visitor Edit Successfully", Toast.LENGTH_SHORT).show();
-                                setAlarms();
+                                if(mDayS!=0&&mYearS!=0&&mMonthS!=0&&mHourS!=0&&mMinuteS!=0) {
+                                    setAlarms();
+                                }
                                 onBackPressed();
                             } else {
                                 Toast.makeText(EditVisitorDetailsActivity.this, "Visitor Not Edit", Toast.LENGTH_SHORT).show();

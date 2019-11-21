@@ -61,6 +61,7 @@ public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySource
         } else {
             lastTenDigits = mobile_number;
         }
+        holder.textMobileNumber.setText(lastTenDigits);
         holder.textEmail.setText(visitorBySourceModel.getEmail_id());
         holder.textChapterName.setText(visitorBySourceModel.getChapter_name());
         holder.textLaunch_dc.setText(visitorBySourceModel.getLaunch_dc());

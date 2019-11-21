@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -157,6 +159,33 @@ public class EditVisitorActivity extends AppCompatActivity implements ContactLis
                 edt_search.setText("");
                 EditVisitorActivity.AccessContactList accessContactList = new EditVisitorActivity.AccessContactList();
                 accessContactList.execute("");
+            }
+        });
+        edt_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edt_search.setFocusableInTouchMode(true);
+            }
+        });
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    edt_search.setFocusableInTouchMode(true);
+                    contactListAdapter.getFilter().filter(edt_search.getText().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         SpinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

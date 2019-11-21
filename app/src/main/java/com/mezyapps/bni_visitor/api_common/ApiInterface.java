@@ -50,7 +50,8 @@ public interface ApiInterface {
                                   @Field("current_date") String current_date,
                                   @Field("follow_up_date") String follow_up_date,
                                   @Field("launch_dc") String launch_dc,
-                                  @Field("description") String description);
+                                  @Field("description") String description,
+                                  @Field("followup_date") String followDateSend);
 
     @POST(EndApi.WS_EDIT_VISITOR)
     @FormUrlEncoded

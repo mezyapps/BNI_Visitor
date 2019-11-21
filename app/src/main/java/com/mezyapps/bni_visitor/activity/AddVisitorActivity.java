@@ -83,6 +83,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
     private ArrayAdapter<String> adapterName;
     private String showDate, sendDate, time, followUpDateTimeShow, followUpDateTimeSend, status = "0", followDate = "", followTime = "";
     private RadioGroup radioGroupStatus;
+    private String followDateSend;
     private Spinner SpinnerSource, SpinnerChapter, SpinnerLaunchDc;
     private ScrollView scroll_add_visitor;
 
@@ -161,6 +162,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         sendDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
         String dateStr = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         String dateStrSend = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        followDateSend = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String currentDateandTime = sdf.format(new Date());
@@ -407,6 +409,12 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
                         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                         String dateString = format.format(calendar.getTime());
                         followDate = dateString;
+
+
+                        SimpleDateFormat formatSend = new SimpleDateFormat("yyyy-MM-dd");
+                        String dateStringSend = formatSend.format(calendar.getTime());
+                        followDateSend = dateStringSend;
+
                         timePicker();
                     }
 
@@ -467,7 +475,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
 
     private void callAddVisitor() {
         showProgressDialog.showDialog();
-        Call<SuccessModel> call = apiInterface.addVisitor(Name, MobileNumber, Email, Category, Location, ChapterName, Source, PersonName, status, CurrentDateTime, FollowUpDateTime, LaunchDc, Description);
+        Call<SuccessModel> call = apiInterface.addVisitor(Name, MobileNumber, Email, Category, Location, ChapterName, Source, PersonName, status, CurrentDateTime, FollowUpDateTime, LaunchDc, Description,followDateSend);
         call.enqueue(new Callback<SuccessModel>() {
             @Override
             public void onResponse(Call<SuccessModel> call, Response<SuccessModel> response) {

@@ -84,6 +84,7 @@ public class VisitorByChapterListAdapter extends RecyclerView.Adapter<VisitorByC
                 Intent intent = new Intent(mContext, EditVisitorDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("VISITOR_ID",  visitorByChapterModelArrayList.get(position).getVisitor_id());
+                intent.putExtra("VISITOR_NAME",  visitorByChapterModelArrayList.get(position).getName());
                 intent.putExtra("VISITOR_STATUS",  visitorByChapterModelArrayList.get(position).getStatus());
                 intent.putExtra("VISITOR_LAUNCH_DC",  visitorByChapterModelArrayList.get(position).getLaunch_dc());
                 intent.putExtra("VISITOR_FOLLOW_DATE",  visitorByChapterModelArrayList.get(position).getFollow_up_date_time());

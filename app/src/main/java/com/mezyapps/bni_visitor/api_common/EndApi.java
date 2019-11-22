@@ -25,4 +25,5 @@ public class EndApi extends BaseApi {
     public static final String WS_VISITOR_LAUNCH_DC="ws_visitor_list_launch_dc.php";
     public static final String WS_DELETE_VISITOR="ws_delete_visitor.php";
     public static final String WS_UPDATE_VISITOR="ws_update_visitor.php";
+    public static final String WS_VISITOR_ID="ws_visitor_list_id.php";
 }

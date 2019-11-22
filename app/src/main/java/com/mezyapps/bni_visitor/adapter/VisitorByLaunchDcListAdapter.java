@@ -85,6 +85,7 @@ public class VisitorByLaunchDcListAdapter extends RecyclerView.Adapter<VisitorBy
                 Intent intent = new Intent(mContext, EditVisitorDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("VISITOR_ID",  visitorByLaunchDcModelArrayList.get(position).getVisitor_id());
+                intent.putExtra("VISITOR_NAME",  visitorByLaunchDcModelArrayList.get(position).getName());
                 intent.putExtra("VISITOR_STATUS",  visitorByLaunchDcModelArrayList.get(position).getStatus());
                 intent.putExtra("VISITOR_LAUNCH_DC",  visitorByLaunchDcModelArrayList.get(position).getLaunch_dc());
                 intent.putExtra("VISITOR_FOLLOW_DATE",  visitorByLaunchDcModelArrayList.get(position).getFollow_up_date_time());

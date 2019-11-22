@@ -44,6 +44,9 @@ public class SuccessModel {
     @SerializedName("visitor_list_launch")
     private ArrayList<VisitorByLaunchDcModel> visitorByLaunchDcModelArrayList;
 
+    @SerializedName("visitor_list_id")
+    private ArrayList<VisitorListAllModel> visitorListIdModelArrayList;
+
 
     public ArrayList<VisitorByLaunchDcModel> getVisitorByLaunchDcModelArrayList() {
         return visitorByLaunchDcModelArrayList;
@@ -51,6 +54,14 @@ public class SuccessModel {
 
     public void setVisitorByLaunchDcModelArrayList(ArrayList<VisitorByLaunchDcModel> visitorByLaunchDcModelArrayList) {
         this.visitorByLaunchDcModelArrayList = visitorByLaunchDcModelArrayList;
+    }
+
+    public ArrayList<VisitorListAllModel> getVisitorListIdModelArrayList() {
+        return visitorListIdModelArrayList;
+    }
+
+    public void setVisitorListIdModelArrayList(ArrayList<VisitorListAllModel> visitorListIdModelArrayList) {
+        this.visitorListIdModelArrayList = visitorListIdModelArrayList;
     }
 
     public ArrayList<VisitorHistoryModel> getVisitorHistoryModelArrayList() {

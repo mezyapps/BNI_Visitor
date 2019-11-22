@@ -16,6 +16,7 @@
     <color name="violet">#EE82EE</color>
     <color name="orange">#FFA500</color>
     <color name="edit_background">#EC9779</color>
+    <color name="notification_background">#F7F7F7</color>
 
     <color name="source_member">#AB47BC </color>
     <color name="source_not_interested">#CC3333 </color>

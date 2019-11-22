@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.mezyapps.bni_visitor.R;
 import com.mezyapps.bni_visitor.activity.MainActivity;
+import com.mezyapps.bni_visitor.activity.NotificationActivity;
 
 import java.util.Random;
 
@@ -29,15 +31,20 @@ public class Alarm  extends BroadcastReceiver {
     NotificationManager notificationManager;
     NotificationCompat.Builder builder;
     int m;
-    String title="Follow Up";
-    String description="Check Your Follow UP";
+    String title="Follow Up",visitor_id,visitor_name;
+    String description="New Follow";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         MediaPlayer mediaPlayer=MediaPlayer.create(context, Settings.System.DEFAULT_ALARM_ALERT_URI);
         mediaPlayer.start();
 
-        Log.d("MyAlarmBelal", "Alarm just fired");
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            visitor_id = bundle.getString("id");
+            visitor_name = bundle.getString("Name");
+        }
+
 
         final String NOTIFICATION_CHANNEL_ID = "10001";
         Random random = new Random();
@@ -46,19 +53,17 @@ public class Alarm  extends BroadcastReceiver {
 
         Intent intentFlag;
 
-        intentFlag = new Intent(context, MainActivity.class);
-        intentFlag.putExtra("TITLE", title);
-        intentFlag.putExtra("DESCRIPTION", description);
+        intentFlag = new Intent(context, NotificationActivity.class);
+        intentFlag.putExtra("ID", visitor_id);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent=PendingIntent.getActivity(context,0,intentFlag,PendingIntent.FLAG_ONE_SHOT);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
         builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
-                .setContentText(description)
+                .setContentText(description+" "+visitor_name)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setAutoCancel(true)
                 .setSound(uri)

@@ -65,7 +65,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     private ImageView iv_back;
     private Button btn_save;
     private LinearLayout ll_follow_up_date_time;
-    private String followUpDateTimeShow, followDate = "", followTime = "", status = "0", time = "";
+    private String followUpDateTimeShow, followDate = "", followTime = "", status = "0", time = "",visitor_name;
     private RadioGroup radioGroupStatus;
     private Spinner SpinnerLaunchDc;
     private RadioButton rbFollow_UP, rbMember, rbNot_Interested;
@@ -134,6 +134,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             visitor_id = bundle.getString("VISITOR_ID");
+            visitor_name = bundle.getString("VISITOR_NAME");
             status = bundle.getString("VISITOR_STATUS");
             LaunchDc = bundle.getString("VISITOR_LAUNCH_DC");
             followUpDateTimeShow = bundle.getString("VISITOR_FOLLOW_DATE");
@@ -365,6 +366,8 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
 
 
         Intent activate = new Intent(this, Alarm.class);
+        activate.putExtra("Name",visitor_name);
+        activate.putExtra("id",visitor_id);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(this, request_code, activate, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC, cal1.getTimeInMillis(), alarmIntent);

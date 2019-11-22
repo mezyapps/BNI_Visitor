@@ -143,4 +143,9 @@ public interface ApiInterface {
                                      @Field("description") String description);
 
 
+    @POST(EndApi.WS_VISITOR_ID)
+    @FormUrlEncoded
+    Call<SuccessModel> visitorById(@Field("visitor_id") String visitor_id);
+
+
 }

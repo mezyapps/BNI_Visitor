@@ -85,6 +85,7 @@ public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySource
                 Intent intent = new Intent(mContext, EditVisitorDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("VISITOR_ID",  visitorBySourceModelArrayList.get(position).getVisitor_id());
+                intent.putExtra("VISITOR_NAME",  visitorBySourceModelArrayList.get(position).getName());
                 intent.putExtra("VISITOR_STATUS",  visitorBySourceModelArrayList.get(position).getStatus());
                 intent.putExtra("VISITOR_LAUNCH_DC",  visitorBySourceModelArrayList.get(position).getLaunch_dc());
                 intent.putExtra("VISITOR_FOLLOW_DATE",  visitorBySourceModelArrayList.get(position).getFollow_up_date_time());

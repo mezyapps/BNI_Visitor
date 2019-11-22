@@ -32,7 +32,7 @@ import com.mezyapps.bni_visitor.fragment.LunchFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView iv_drawer;
+    private ImageView iv_drawer,iv_notification;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private FrameLayout frameLayout_main;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void find_View_IdS() {
         iv_drawer = findViewById(R.id.iv_drawer);
-
+        iv_notification = findViewById(R.id.iv_notification);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         text_version_name = findViewById(R.id.text_version_name);
@@ -106,6 +106,13 @@ public class MainActivity extends AppCompatActivity {
 
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
+            }
+        });
+
+        iv_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,NotificationActivity.class).putExtra("ID",""));
             }
         });
     }

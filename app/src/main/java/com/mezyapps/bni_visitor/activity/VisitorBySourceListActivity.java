@@ -147,8 +147,8 @@ public class VisitorBySourceListActivity extends AppCompatActivity {
                             if (code.equalsIgnoreCase("1")) {
 
                                 visitorBySourceModelArrayList = successModule.getVisitorBySourceModelArrayList();
-                                Collections.reverse(visitorBySourceModelArrayList);
                                 if (visitorBySourceModelArrayList.size() != 0) {
+                                    Collections.reverse(visitorBySourceModelArrayList);
                                     visitorBySourceAdapter = new VisitorBySourceAdapter(VisitorBySourceListActivity.this, visitorBySourceModelArrayList);
                                     recycler_view_visitor_source.setAdapter(visitorBySourceAdapter);
                                     visitorBySourceAdapter.notifyDataSetChanged();

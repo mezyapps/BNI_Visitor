@@ -24,6 +24,7 @@ import com.mezyapps.bni_visitor.utils.NetworkUtils;
 import com.mezyapps.bni_visitor.utils.ShowProgressDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,6 +95,7 @@ public class VisitorByChapterActivity extends AppCompatActivity {
 
                                 chapterListModelArrayList=successModule.getChapterListModelArrayList();
                                 if(chapterListModelArrayList.size()!=0) {
+                                    Collections.reverse(chapterListModelArrayList);
                                     visitorByChapterAdapter=new VisitorByChapterAdapter(VisitorByChapterActivity.this,chapterListModelArrayList);
                                     recycler_view_chapter.setAdapter(visitorByChapterAdapter);
                                     visitorByChapterAdapter.notifyDataSetChanged();

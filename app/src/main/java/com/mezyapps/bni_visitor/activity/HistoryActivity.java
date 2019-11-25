@@ -27,6 +27,7 @@ import com.mezyapps.bni_visitor.utils.NetworkUtils;
 import com.mezyapps.bni_visitor.utils.ShowProgressDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -144,6 +145,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                                 visitorHistoryModelArrayList=successModule.getVisitorHistoryModelArrayList();
                                 if(visitorHistoryModelArrayList.size()!=0) {
+                                    Collections.reverse(visitorHistoryModelArrayList);
                                     visitorHistoryAdapter=new VisitorHistoryAdapter(HistoryActivity.this,visitorHistoryModelArrayList);
                                     recycler_view_all_history.setAdapter(visitorHistoryAdapter);
                                     visitorHistoryAdapter.notifyDataSetChanged();

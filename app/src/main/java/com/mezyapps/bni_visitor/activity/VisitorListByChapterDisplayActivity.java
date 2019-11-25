@@ -145,8 +145,8 @@ public class VisitorListByChapterDisplayActivity extends AppCompatActivity {
                             if (code.equalsIgnoreCase("1")) {
 
                                 visitorByChapterModelArrayList = successModule.getVisitorByChapterModelArrayList();
-                                Collections.reverse(visitorByChapterModelArrayList);
                                 if (visitorByChapterModelArrayList.size() != 0) {
+                                    Collections.reverse(visitorByChapterModelArrayList);
                                     visitorByChapterListAdapter=new VisitorByChapterListAdapter(VisitorListByChapterDisplayActivity.this, visitorByChapterModelArrayList);
                                     recycler_view_visitor_chapter.setAdapter(visitorByChapterListAdapter);
                                     visitorByChapterListAdapter.notifyDataSetChanged();

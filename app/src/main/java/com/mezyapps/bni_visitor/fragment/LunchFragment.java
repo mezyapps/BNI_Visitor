@@ -36,6 +36,7 @@ import com.mezyapps.bni_visitor.utils.NetworkUtils;
 import com.mezyapps.bni_visitor.utils.ShowProgressDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -212,6 +213,7 @@ public class LunchFragment extends Fragment {
 
                                 lunchDcModelArrayList=successModule.getLunchDcModelArrayList();
                                 if(lunchDcModelArrayList.size()!=0) {
+                                    Collections.reverse(lunchDcModelArrayList);
                                     lunchDcAdapter=new LunchDcAdapter(mContext,lunchDcModelArrayList);
                                     recycler_view_lunch_list.setAdapter(lunchDcAdapter);
                                     text_view_empty.setVisibility(View.GONE);

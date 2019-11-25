@@ -38,6 +38,7 @@ import com.mezyapps.bni_visitor.utils.SharedLoginUtils;
 import com.mezyapps.bni_visitor.utils.ShowProgressDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -214,6 +215,7 @@ public class ChapterListFragment extends Fragment  implements ChapterSelectInter
 
                                 chapterListModelArrayList=successModule.getChapterListModelArrayList();
                                 if(chapterListModelArrayList.size()!=0) {
+                                   Collections.reverse(chapterListModelArrayList);
                                     chapterListAdapter=new ChapterListAdapter(mContext,chapterListModelArrayList);
                                     recycler_view_chapter_list.setAdapter(chapterListAdapter);
                                     chapterListAdapter.notifyDataSetChanged();

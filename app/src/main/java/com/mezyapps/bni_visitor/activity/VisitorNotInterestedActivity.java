@@ -23,6 +23,7 @@ import com.mezyapps.bni_visitor.utils.NetworkUtils;
 import com.mezyapps.bni_visitor.utils.ShowProgressDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,6 +96,7 @@ public class VisitorNotInterestedActivity extends AppCompatActivity {
 
                                 visitorListStatusModelArrayList = successModule.getVisitorListStatusModelArrayList();
                                 if (visitorListStatusModelArrayList.size() != 0) {
+                                    Collections.reverse(visitorListStatusModelArrayList);
                                     visitorListCommonAdapter = new VisitorListCommonAdapter(VisitorNotInterestedActivity.this, visitorListStatusModelArrayList);
                                     recycler_view_follow_up.setAdapter(visitorListCommonAdapter);
                                     visitorListCommonAdapter.notifyDataSetChanged();

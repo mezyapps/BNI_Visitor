@@ -106,7 +106,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         rbNot_Interested = findViewById(R.id.rbNot_Interested);
 
         String dateStrSend = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        followDateSend = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        //followDateSend = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String currentDateandTime = sdf.format(new Date());
 
@@ -138,6 +138,8 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
             status = bundle.getString("VISITOR_STATUS");
             LaunchDc = bundle.getString("VISITOR_LAUNCH_DC");
             followUpDateTimeShow = bundle.getString("VISITOR_FOLLOW_DATE");
+            followDateSend = bundle.getString("FOLLOW_DATE");
+           // Toast.makeText(this, followDateSend, Toast.LENGTH_SHORT).show();
             textFollowUpDateTime.setText(followUpDateTimeShow);
         }
 

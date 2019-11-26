@@ -88,6 +88,7 @@ public class VisitorDateFilterAdapter extends RecyclerView.Adapter<VisitorDateFi
                 intent.putExtra("VISITOR_STATUS",  visitorDateFilterModelArrayList.get(position).getStatus());
                 intent.putExtra("VISITOR_LAUNCH_DC",  visitorDateFilterModelArrayList.get(position).getLaunch_dc());
                 intent.putExtra("VISITOR_FOLLOW_DATE",  visitorDateFilterModelArrayList.get(position).getFollow_up_date_time());
+                intent.putExtra("FOLLOW_DATE",  visitorDateFilterModelArrayList.get(position).getInserted_date_time());
                 mContext.startActivity(intent);
             }
         });

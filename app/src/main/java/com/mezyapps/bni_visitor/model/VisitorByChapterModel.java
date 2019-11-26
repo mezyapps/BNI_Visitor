@@ -14,6 +14,16 @@ public class VisitorByChapterModel {
     String launch_dc;
     String description;
     String Follow_up_date_time;
+    String inserted_date_time;
+
+    public String getInserted_date_time() {
+        return inserted_date_time;
+    }
+
+    public void setInserted_date_time(String inserted_date_time) {
+        this.inserted_date_time = inserted_date_time;
+    }
+
 
     public String getDescription() {
         return description;

@@ -89,6 +89,7 @@ public class VisitorBySourceAdapter extends RecyclerView.Adapter<VisitorBySource
                 intent.putExtra("VISITOR_STATUS",  visitorBySourceModelArrayList.get(position).getStatus());
                 intent.putExtra("VISITOR_LAUNCH_DC",  visitorBySourceModelArrayList.get(position).getLaunch_dc());
                 intent.putExtra("VISITOR_FOLLOW_DATE",  visitorBySourceModelArrayList.get(position).getFollow_up_date_time());
+                intent.putExtra("FOLLOW_DATE",  visitorBySourceModelArrayList.get(position).getInserted_date_time());
                 mContext.startActivity(intent);
             }
         });

@@ -17,6 +17,7 @@ public class VisitorDateFilterModel {
     String description;
     String Follow_up_date_time;
 
+
     public String getFollow_up_date_time() {
         return Follow_up_date_time;
     }

@@ -215,7 +215,7 @@ public class ChapterListFragment extends Fragment  implements ChapterSelectInter
 
                                 chapterListModelArrayList=successModule.getChapterListModelArrayList();
                                 if(chapterListModelArrayList.size()!=0) {
-                                   Collections.reverse(chapterListModelArrayList);
+                                    Collections.reverse(chapterListModelArrayList);
                                     chapterListAdapter=new ChapterListAdapter(mContext,chapterListModelArrayList);
                                     recycler_view_chapter_list.setAdapter(chapterListAdapter);
                                     chapterListAdapter.notifyDataSetChanged();

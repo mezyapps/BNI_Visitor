@@ -35,7 +35,8 @@
     <ScrollView
         android:id="@+id/scroll_add_visitor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,12 +80,12 @@
 
 
                     <ImageView
+                        android:id="@+id/iv_contact"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/iv_contact"
-                        android:src="@drawable/ic_vector_phone_book"
+                        android:layout_weight="2.5"
                         android:background="@drawable/shape_edit_background"
-                        android:layout_weight="2.5"/>
+                        android:src="@drawable/ic_vector_phone_book" />
 
 
                 </LinearLayout>
@@ -460,15 +461,35 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="Description"
-                    android:textColor="@color/app_color"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Description"
+                        android:textColor="@color/app_color"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/tv_word_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:text="character:-0"
+                        android:layout_weight="1"
+                        android:textColor="@color/app_color"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <AutoCompleteTextView
                     android:id="@+id/textDescription"
@@ -477,9 +498,10 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/shape_edit_background"
                     android:inputType="text"
-                    android:padding="10dp"
                     android:maxLength="150"
+                    android:padding="10dp"
                     android:textAllCaps="true" />
+
 
             </LinearLayout>
 

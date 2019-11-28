@@ -145,7 +145,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                                 visitorHistoryModelArrayList=successModule.getVisitorHistoryModelArrayList();
                                 if(visitorHistoryModelArrayList.size()!=0) {
-                                    Collections.reverse(visitorHistoryModelArrayList);
+                                   // Collections.reverse(visitorHistoryModelArrayList);
                                     visitorHistoryAdapter=new VisitorHistoryAdapter(HistoryActivity.this,visitorHistoryModelArrayList);
                                     recycler_view_all_history.setAdapter(visitorHistoryAdapter);
                                     visitorHistoryAdapter.notifyDataSetChanged();

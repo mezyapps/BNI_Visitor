@@ -310,7 +310,7 @@ public class VisitorByDateActivity extends AppCompatActivity {
 
                                 visitorDateFilterModelArrayList=successModule.getVisitorDateFilterModelArrayList();
                                 if(visitorDateFilterModelArrayList.size()!=0) {
-                                    Collections.reverse(visitorDateFilterModelArrayList);
+                                   // Collections.reverse(visitorDateFilterModelArrayList);
                                     visitorDateFilterAdapter=new VisitorDateFilterAdapter(VisitorByDateActivity.this,visitorDateFilterModelArrayList);
                                     recycler_view_all_visitor.setAdapter(visitorDateFilterAdapter);
                                     visitorDateFilterAdapter.notifyDataSetChanged();

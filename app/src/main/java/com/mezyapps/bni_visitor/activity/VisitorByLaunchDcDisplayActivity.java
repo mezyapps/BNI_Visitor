@@ -144,7 +144,7 @@ public class VisitorByLaunchDcDisplayActivity extends AppCompatActivity {
 
                                 visitorByLaunchDcModelArrayList = successModule.getVisitorByLaunchDcModelArrayList();
                                 if (visitorByLaunchDcModelArrayList.size() != 0) {
-                                    Collections.reverse(visitorByLaunchDcModelArrayList);
+                                    //Collections.reverse(visitorByLaunchDcModelArrayList);
                                     visitorByLaunchDcListAdapter = new VisitorByLaunchDcListAdapter(VisitorByLaunchDcDisplayActivity.this, visitorByLaunchDcModelArrayList);
                                     recycler_view_visitor_launch_dc.setAdapter(visitorByLaunchDcListAdapter);
                                     visitorByLaunchDcListAdapter.notifyDataSetChanged();

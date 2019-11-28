@@ -94,7 +94,7 @@ public class VisitorByLaunchDcActivity extends AppCompatActivity {
 
                                 lunchDcModelArrayList=successModule.getLunchDcModelArrayList();
                                 if(lunchDcModelArrayList.size()!=0) {
-                                    Collections.reverse(lunchDcModelArrayList);
+                                   // Collections.reverse(lunchDcModelArrayList);
                                     visitorByLaunchDc=new VisitorByLaunchDcAdapter(VisitorByLaunchDcActivity.this,lunchDcModelArrayList);
                                     recycler_view_launch_dc.setAdapter(visitorByLaunchDc);
                                     //text_view_empty.setVisibility(View.GONE);

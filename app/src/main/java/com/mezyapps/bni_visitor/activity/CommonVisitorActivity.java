@@ -161,7 +161,7 @@ public class CommonVisitorActivity extends AppCompatActivity {
 
                                 visitorListStatusModelArrayList=successModule.getVisitorListStatusModelArrayList();
                                 if(visitorListStatusModelArrayList.size()!=0) {
-                                    Collections.reverse(visitorListStatusModelArrayList);
+                                   // Collections.reverse(visitorListStatusModelArrayList);
                                     visitorListCommonAdapter=new VisitorListCommonAdapter(CommonVisitorActivity.this,visitorListStatusModelArrayList);
                                     recycler_view_follow_up.setAdapter(visitorListCommonAdapter);
                                     visitorListCommonAdapter.notifyDataSetChanged();

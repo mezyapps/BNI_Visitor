@@ -34,6 +34,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -86,6 +87,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
     private String followDateSend;
     private Spinner SpinnerSource, SpinnerChapter, SpinnerLaunchDc;
     private ScrollView scroll_add_visitor;
+    private TextView tv_word_count;
 
     //Chapter List Spinner
     private ArrayList<ChapterListModel> chapterListModelArrayList = new ArrayList<>();
@@ -138,6 +140,7 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
         textDescription = findViewById(R.id.textDescription);
         SpinnerLaunchDc = findViewById(R.id.SpinnerLaunchDc);
         ll_person_name = findViewById(R.id.ll_person_name);
+        tv_word_count = findViewById(R.id.tv_word_count);
         btn_save = findViewById(R.id.btn_save);
         iv_contact = findViewById(R.id.iv_contact);
         scroll_add_visitor = findViewById(R.id.scroll_add_visitor);
@@ -344,6 +347,23 @@ public class AddVisitorActivity extends AppCompatActivity implements ContactList
 
             }
         });
+        textDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tv_word_count.setText("character:-"+s.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
     }
 

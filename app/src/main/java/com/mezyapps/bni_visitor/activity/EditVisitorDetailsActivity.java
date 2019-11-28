@@ -15,6 +15,8 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -81,6 +84,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
     int mYear, mMonth, mDay, mHour, mMinute;
     int mYearS, mMonthS, mDayS, mHourS, mMinuteS;
     public static int request_code=1;
+    private TextView tv_word_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,7 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
         rbFollow_UP = findViewById(R.id.rbFollow_UP);
         rbMember = findViewById(R.id.rbMember);
         rbNot_Interested = findViewById(R.id.rbNot_Interested);
+        tv_word_count = findViewById(R.id.tv_word_count);
 
         String dateStrSend = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         //followDateSend = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -234,6 +239,23 @@ public class EditVisitorDetailsActivity extends AppCompatActivity {
                 datePicker();
             }
         });
+        textDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tv_word_count.setText("character:-"+s.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     private void datePicker() {

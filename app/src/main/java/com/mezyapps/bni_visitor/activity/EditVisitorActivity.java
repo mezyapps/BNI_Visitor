@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -74,6 +75,7 @@ public class EditVisitorActivity extends AppCompatActivity implements ContactLis
     ArrayList<String> sourceArrayList = new ArrayList<>();
     private Spinner SpinnerSource, SpinnerChapter, SpinnerLaunchDc;
     private Button btn_delete,btn_update;
+    private TextView tv_word_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class EditVisitorActivity extends AppCompatActivity implements ContactLis
         textLocation = findViewById(R.id.textLocation);
         textDescription = findViewById(R.id.textDescription);
         iv_contact = findViewById(R.id.iv_contact);
+        tv_word_count = findViewById(R.id.tv_word_count);
 
         //Contact Dialog
         contactDialog = new Dialog(EditVisitorActivity.this);
@@ -134,6 +137,7 @@ public class EditVisitorActivity extends AppCompatActivity implements ContactLis
             chapterStringArrayList.add(visitor_chapter);
             launchDcStringArrayList.add(LaunchDc);
             sourceArrayList.add(visitor_source);
+            tv_word_count.setText("character:-"+visitor_description.length());
         }
 
     }
@@ -243,6 +247,23 @@ public class EditVisitorActivity extends AppCompatActivity implements ContactLis
                 } else {
                     NetworkUtils.isNetworkNotAvailable(EditVisitorActivity.this);
                 }
+            }
+        });
+
+        textDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tv_word_count.setText("character:-"+s.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
